@@ -48,16 +48,6 @@ if (!$ligne_cnf["view_archived"])
 	$sWhere .= 'ifnull(archived, 0) != 1';
 }
 
-if ( $sWhere == "" )
-{
-	$sWhere = "WHERE ";
-}
-else
-{
-	$sWhere .= " AND ";
-}
-$sWhere .= 'user_id = "'.USER_ID.'"';
-
 $sQuery = "
 	SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
 	FROM   $sTable
@@ -133,17 +123,6 @@ if (!$ligne_cnf["view_archived"])
 	$sWhere .= 'ifnull(archived, 0) != 1';
 }
 
-
-if ( $sWhere == "" )
-{
-	$sWhere = "WHERE ";
-}
-else
-{
-	$sWhere .= " AND ";
-}
-$sWhere .= 'user_id = "'.USER_ID.'"';
-
 $sQuery = "
 	SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
 	FROM   $sTable
@@ -190,17 +169,6 @@ if ($searchString != "" )
 	$sWhere = substr_replace( $sWhere, "", -3 );
 	$sWhere .= ')';
 }
-
-
-if ( $sWhere == "" )
-{
-	$sWhere = "WHERE ";
-}
-else
-{
-	$sWhere .= " AND ";
-}
-$sWhere .= 'user_id = "'.USER_ID.'"';
 
 /*
  * SQL queries
