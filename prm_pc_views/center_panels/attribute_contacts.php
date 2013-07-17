@@ -1,0 +1,1 @@
+<button id="bAttributeContacts" onclick='NotImplemented();'><?php echo GetString('Voir les contacts avec cet attribut'); ?></button>
