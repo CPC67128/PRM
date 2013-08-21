@@ -9,6 +9,6 @@ include_once '../dal/dal_prm.php';
 <title>Gestionnaire de relations personnelles ou privées</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="Description" content="Gestionnaire de relations personnelles ou privées par Steve Fuchs : base de contacts, anniversaires, qualification des contacts, entreprises et recrutement, ...">
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+<link rel="stylesheet" href="../3rd_party/jquery.mobile-1.3.2.min.css" />
+<script src="../3rd_party/jquery-1.10.2.min.js"></script>
+<script src="../3rd_party/jquery.mobile-1.3.2.min.js"></script>
