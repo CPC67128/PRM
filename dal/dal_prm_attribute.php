@@ -13,7 +13,7 @@ function GetAttributeResource($AttributeId)
 	include 'database_use_start.php';
 
 	$query = 'select *
-		from '.$DB_TABLE_PREFIX.'sf_prm_attribute
+		from '.$DB_TABLE_PREFIX.'prm_attribute
 		where attribute_id = '.$AttributeId.'
 		order by attribute';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
@@ -28,7 +28,7 @@ function GetAttributeNamesForCompany()
 {
 	include 'database_use_start.php';
 
-	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'sf_prm_attribute where for_company = 1 order by attribute';
+	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'prm_attribute where for_company = 1 order by attribute';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
@@ -40,7 +40,7 @@ function GetAllAttributesForContact()
 {
 	include 'database_use_start.php';
 	
-	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'sf_prm_attribute where for_contact = 1 order by attribute';
+	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'prm_attribute where for_contact = 1 order by attribute';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	
 	include 'database_use_stop.php';
@@ -55,7 +55,7 @@ function UpdateAttribute($AttributeId, $post)
 
 	include 'database_use_start.php';
 
-	$query = "select * from '.$DB_TABLE_PREFIX.'sf_prm_attribute where attribute_id = ".$AttributeId;
+	$query = "select * from '.$DB_TABLE_PREFIX.'prm_attribute where attribute_id = ".$AttributeId;
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$row = mysql_fetch_assoc($result);
@@ -72,7 +72,7 @@ function UpdateAttribute($AttributeId, $post)
 	{
 		if (!in_array($field_name, $fields_to_ignore) && !in_array($field_name, $fields_checkbox))
 		{
-			// Fields names that match with sf_prm_attribute table field names (type VARCHAR)
+			// Fields names that match with prm_attribute table field names (type VARCHAR)
 			if ($field_value != $row[$field_name])
 			{
 				// update of the field
@@ -86,7 +86,7 @@ function UpdateAttribute($AttributeId, $post)
 		}
 	}
 
-	// Fields names that match with sf_prm_attribute table field names (type CHECKBOX)
+	// Fields names that match with prm_attribute table field names (type CHECKBOX)
 	foreach($fields_checkbox as $field_name)
 	{
 		$newFieldValue = 0;
@@ -108,16 +108,16 @@ function UpdateAttribute($AttributeId, $post)
 			if ($newFieldValue == 0)
 			{
 				if ($field_name == 'for_contact')
-					$delete_query .= 'delete from '.$DB_TABLE_PREFIX.'sf_prm_contact_attribute where attribute_id = '.$AttributeId;
+					$delete_query .= 'delete from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$AttributeId;
 				else if ($field_name == 'for_company')
-					$delete_query .= 'delete from '.$DB_TABLE_PREFIX.'sf_prm_company_attribute where attribute_id = '.$AttributeId;
+					$delete_query .= 'delete from '.$DB_TABLE_PREFIX.'prm_company_attribute where attribute_id = '.$AttributeId;
 			}
 		}
 	}
 
 	if ($something_has_changed)
 	{
-		$update_query = 'update '.$DB_TABLE_PREFIX.'sf_prm_attribute set '.$update_query.' where attribute_id = '.$AttributeId;
+		$update_query = 'update '.$DB_TABLE_PREFIX.'prm_attribute set '.$update_query.' where attribute_id = '.$AttributeId;
 		mysql_query($update_query);
 		
 		mysql_query($delete_query);
@@ -132,13 +132,13 @@ function DeleteAttribute($AttributeId)
 
 	include 'database_use_start.php';
 
-	$query = 'delete from '.$DB_TABLE_PREFIX.'sf_prm_contact_attribute where attribute_id = '.$AttributeId;
+	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$AttributeId;
 	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
-	$query = 'delete from '.$DB_TABLE_PREFIX.'sf_prm_company_attribute where attribute_id = '.$AttributeId;
+	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_company_attribute where attribute_id = '.$AttributeId;
 	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
-	$query = 'delete from '.$DB_TABLE_PREFIX.'sf_prm_attribute where attribute_id = '.$AttributeId;
+	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_attribute where attribute_id = '.$AttributeId;
 	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
@@ -152,7 +152,7 @@ function CreateAttribute($post)
 
 	include 'database_use_start.php';
 
-	$query = sprintf("insert into ".$DB_TABLE_PREFIX."sf_prm_attribute (attribute, for_company, for_contact) values ('%s', %s, %s)",
+	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_attribute (attribute, for_company, for_contact) values ('%s', %s, %s)",
 		(get_magic_quotes_gpc() ? $Attribute : mysql_real_escape_string($_POST["attribute"])),
 		(isset($post["for_company"]) && $post["for_company"] == 'on' ? '1' : '0'),
 		(isset($post["for_contact"]) && $post["for_contact"] == 'on' ? '1' : '0'));
@@ -170,7 +170,7 @@ function GetAttributeShortDescription($AttributeId)
 	include 'database_use_start.php';
 
 	$query = 'select attribute
-		from '.$DB_TABLE_PREFIX.'sf_prm_attribute
+		from '.$DB_TABLE_PREFIX.'prm_attribute
 		where attribute_id = '.$AttributeId;
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$row = mysql_fetch_assoc($result);

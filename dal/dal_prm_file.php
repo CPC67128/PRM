@@ -4,7 +4,7 @@ function GetFileRow($FileId)
 {
 	include 'database_use_start.php';
 	
-	$query = 'select * from '.$DB_TABLE_PREFIX.'sf_prm_file where file_id = '.$FileId;
+	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_file where file_id = '.$FileId;
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	
 	include 'database_use_stop.php';
@@ -18,7 +18,7 @@ function GetFilesFromContact($ContactId)
 {
 	include 'database_use_start.php';
 
-	$query = 'select * from '.$DB_TABLE_PREFIX.'sf_prm_file where record_type = 1 and record_id = '.$ContactId.' order by file_id asc';
+	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_file where record_type = 1 and record_id = '.$ContactId.' order by file_id asc';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
@@ -30,7 +30,7 @@ function GetFilesFromCompany($CompanyId)
 {
 	include 'database_use_start.php';
 
-	$query = 'select * from '.$DB_TABLE_PREFIX.'sf_prm_file where record_type = 2 and record_id = '.$CompanyId.' order by file_id asc';
+	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_file where record_type = 2 and record_id = '.$CompanyId.' order by file_id asc';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
@@ -52,10 +52,10 @@ function DeleteFile($FileId)
 
 	include 'database_use_start.php';
 
-	$query = 'delete from '.$DB_TABLE_PREFIX.'sf_prm_file where file_id = '.$FileId;
+	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_file where file_id = '.$FileId;
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
-	$query = 'update '.$DB_TABLE_PREFIX.'sf_prm_contact set picture_file_id = null where picture_file_id = '.$FileId;
+	$query = 'update '.$DB_TABLE_PREFIX.'prm_contact set picture_file_id = null where picture_file_id = '.$FileId;
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
@@ -70,7 +70,7 @@ function InsertFileToContact($ContactId, $Filename, $OriginalFilename)
 
 	include 'database_use_start.php';
 
-	$query = sprintf("insert into ".$DB_TABLE_PREFIX."sf_prm_file (record_type, record_id, filename, original_filename, creation_date) values (1, %s, '%s', '%s', now())",
+	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_file (record_type, record_id, filename, original_filename, creation_date) values (1, %s, '%s', '%s', now())",
 	$ContactId,
 	FormatStringForSqlQuery($Filename),
 	FormatStringForSqlQuery($OriginalFilename));
@@ -88,7 +88,7 @@ function InsertFileToCompany($CompanyId, $Filename, $OriginalFilename)
 
 	include 'database_use_start.php';
 
-	$query = sprintf("insert into ".$DB_TABLE_PREFIX."sf_prm_file (record_type, record_id, filename, original_filename, creation_date) values (2, %s, '%s', '%s', now())",
+	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_file (record_type, record_id, filename, original_filename, creation_date) values (2, %s, '%s', '%s', now())",
 		$CompanyId,
 		FormatStringForSqlQuery($Filename),
 		FormatStringForSqlQuery($OriginalFilename));
@@ -104,7 +104,7 @@ function SetCompanyPictureFile($CompanyId, $FileId)
 
 	include 'database_use_start.php';
 
-	$query = sprintf("update ".$DB_TABLE_PREFIX."sf_prm_company set picture_file_id = %s where company_id = %s",
+	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_company set picture_file_id = %s where company_id = %s",
 		$FileId,
 		$CompanyId);
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
@@ -119,7 +119,7 @@ function file_GetFileName($File_id)
 	include 'database_use_start.php';
 
 	$query = 'select filename
-		from '.$DB_TABLE_PREFIX.'sf_prm_file
+		from '.$DB_TABLE_PREFIX.'prm_file
 		where file_id = '.$File_id;
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$row = mysql_fetch_assoc($result);
@@ -137,7 +137,7 @@ function file_GetOrginalFileName($File_id)
 	include 'database_use_start.php';
 
 	$query = 'select original_filename
-		from '.$DB_TABLE_PREFIX.'sf_prm_file
+		from '.$DB_TABLE_PREFIX.'prm_file
 		where file_id = '.$File_id;
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$row = mysql_fetch_assoc($result);

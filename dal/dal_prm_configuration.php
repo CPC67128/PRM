@@ -7,7 +7,7 @@ function GetConfigurationRow()
 
 	include 'database_use_start.php';
 
-	$query = 'select * from '.$DB_TABLE_PREFIX.'sf_prm_configuration';
+	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_configuration';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$row = mysql_fetch_assoc($result);
 
@@ -26,7 +26,7 @@ function UpdateConfiguration($ViewArchived)
 
 	include 'database_use_start.php';
 
-	$query = sprintf("update ".$DB_TABLE_PREFIX."sf_prm_configuration set view_archived = %s",
+	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_configuration set view_archived = %s",
 		$ViewArchived);
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
@@ -39,7 +39,7 @@ function configuration_IsConfigurationExisting()
 
 	$is_existing = false;
 
-	$query = 'select configuration_id from '.$DB_TABLE_PREFIX.'sf_prm_configuration';
+	$query = 'select configuration_id from '.$DB_TABLE_PREFIX.'prm_configuration';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$row = mysql_fetch_assoc($result);
 
@@ -57,7 +57,7 @@ function configuration_CreateConfigurationRow()
 
 	$is_existing = false;
 
-	$query = 'insert into '.$DB_TABLE_PREFIX.'sf_prm_configuration (view_archived) values (0)';
+	$query = 'insert into '.$DB_TABLE_PREFIX.'prm_configuration (view_archived) values (0)';
 	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
