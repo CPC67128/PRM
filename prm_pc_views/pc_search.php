@@ -12,7 +12,7 @@ $aColumnsForSearch = array('personal_city', 'personal_phone', 'personal_mobile_p
 
 $sIndexColumn = "contact_id";
 
-$sTable = $DB_TABLE_PREFIX."sf_prm_contact";
+$sTable = $DB_TABLE_PREFIX."prm_contact";
 
 $sLimit = "LIMIT 10";
 
@@ -32,7 +32,7 @@ if ($searchString != "" )
 	$sWhere .= ')';
 }
 
-$requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."sf_prm_configuration";
+$requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."prm_configuration";
 $resultat_cnf = ExecuteQuery_toremove($requete_cnf);
 $ligne_cnf = mysql_fetch_assoc($resultat_cnf);
 if (!$ligne_cnf["view_archived"])
@@ -92,7 +92,7 @@ while ( $aRow = mysql_fetch_array( $rResult ) )
 
 $aColumns = array('company_id', 'name');
 $sIndexColumn = "company_id";
-$sTable = $DB_TABLE_PREFIX."sf_prm_company";
+$sTable = $DB_TABLE_PREFIX."prm_company";
 $sLimit = "LIMIT 5";
 
 $sWhere = "";
@@ -107,7 +107,7 @@ if ($searchString != "" )
 	$sWhere .= ')';
 }
 
-$requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."sf_prm_configuration";
+$requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."prm_configuration";
 $resultat_cnf = ExecuteQuery_toremove($requete_cnf);
 $ligne_cnf = mysql_fetch_assoc($resultat_cnf);
 if (!$ligne_cnf["view_archived"])
@@ -155,7 +155,7 @@ while ( $aRow = mysql_fetch_array( $rResult ) )
 
 $aColumns = array('attribute_id', 'attribute', 'for_contact', 'for_company');
 $sIndexColumn = "attribute_id";
-$sTable = $DB_TABLE_PREFIX."sf_prm_attribute";
+$sTable = $DB_TABLE_PREFIX."prm_attribute";
 $sLimit = "LIMIT 5";
 
 $sWhere = "";

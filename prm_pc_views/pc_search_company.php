@@ -9,7 +9,7 @@ if (isset($_GET['search_string']))
 
 $aColumns = array('company_id', 'name');
 $sIndexColumn = "company_id";
-$sTable = $DB_TABLE_PREFIX."sf_prm_company";
+$sTable = $DB_TABLE_PREFIX."prm_company";
 $sLimit = "LIMIT 20";
 
 $sWhere = "";
@@ -24,7 +24,7 @@ if ($searchString != "" )
 	$sWhere .= ')';
 }
 
-$requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."sf_prm_configuration";
+$requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."prm_configuration";
 $resultat_cnf = ExecuteQuery_toremove($requete_cnf);
 $ligne_cnf = mysql_fetch_assoc($resultat_cnf);
 if (!$ligne_cnf["view_archived"])
