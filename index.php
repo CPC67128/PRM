@@ -1,3 +1,3 @@
 <?php
 header("HTTP/1.1 301 Moved Permanently");
-header("Location: prm/index.php");
+header('location: prm_pc_views/index.php');

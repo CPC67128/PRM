@@ -1,6 +1,4 @@
-<?php
-include '../configuration/configuration.php';
-?>
+<?php include '../configuration/configuration.php'; ?>
 <!DOCTYPE HTML>
 <html lang="fr">
 <head>
@@ -8,12 +6,12 @@ include '../configuration/configuration.php';
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="Description" content="Gestionnaire de relations personnelles ou privées par Steve Fuchs : base de contacts, anniversaires, qualification des contacts, entreprises et recrutement, ...">
 <link rel="shortcut icon" type="image/ico" href="handshake.ico" />
-<link rel="stylesheet" type="text/css" href="../3rd_party/jquery-ui-1.10.3.custom/css/smoothness/jquery-ui-1.10.3.custom.min.css" media="screen" />	
-<link rel="stylesheet" type="text/css" href="../3rd_party/dojo-release-1.9.1/dijit/themes/claro/claro.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../3rd_party/jquery-ui-1.11.2.custom/jquery-ui.theme.min.css" media="screen" />	
+<link rel="stylesheet" type="text/css" href="../3rd_party/dojo-release-1.10.3/dijit/themes/claro/claro.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="prm.css" media="screen" />
-<script type="text/javascript" src="../3rd_party/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="../3rd_party/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="../3rd_party/dojo-release-1.9.1/dojo/dojo.js" data-dojo-config="parseOnLoad: true"></script>
+<script type="text/javascript" src="../3rd_party/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="../3rd_party/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../3rd_party/dojo-release-1.10.3/dojo/dojo.js" data-dojo-config="parseOnLoad: true"></script>
 <script type="text/javascript" src="prm.js"></script>
 </head>
 
