@@ -39,7 +39,6 @@ function AnalyseApplicationStatus($Application_name)
 	<?php
 }
 
-AnalyseApplicationStatus('');
 AnalyseApplicationStatus('prm');
 
 ?>

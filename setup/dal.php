@@ -4,7 +4,7 @@ function get_current_database_version($ApplicationName)
 {
 	include 'dal_db_use_start.php';
 
-	$requete = "select database_version from ".$DB_TABLE_PREFIX."sf_ccb where application_name = '".$ApplicationName."' order by database_version desc limit 1";
+	$requete = "select database_version from ".$DB_TABLE_PREFIX."prm_ccb where application_name = '".$ApplicationName."' order by database_version desc limit 1";
 	$resultat = mysql_query($requete);
 
 	if (mysql_errno() == 1146) // Table sf_ccb doesn't exist
@@ -64,7 +64,7 @@ function update_current_database_version($ApplicationName, $number)
 {
 	include 'dal_db_use_start.php';
 
-	$requete = "insert into ".$DB_TABLE_PREFIX."sf_ccb (application_name, database_version, upgrade_date) values ('".$ApplicationName."', ".$number.", now())";
+	$requete = "insert into ".$DB_TABLE_PREFIX."prm_ccb (application_name, database_version, upgrade_date) values ('".$ApplicationName."', ".$number.", now())";
 	$resultat = mysql_query($requete) or die ('Unknown error: '.mysql_errno(). ' - '.mysql_error());
 
 	include 'dal_db_use_stop.php';

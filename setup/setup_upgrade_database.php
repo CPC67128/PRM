@@ -70,7 +70,7 @@ function apply_base_script($ApplicationName)
 
 	echo 'Base script applied!<br />';
 
-	update_current_database_version($Application_name, 0);
+	update_current_database_version($ApplicationName, 0);
 
 	echo 'Current database version updated!<br />';
 }
@@ -86,6 +86,13 @@ function apply_upgrade_script($ApplicationName, $number)
 		$sqlFileToExecute = 'database/upgrade_script.'.str_pad($number, 3, "0", STR_PAD_LEFT).'.sql';
 	else
 		$sqlFileToExecute = 'database_'.$ApplicationName.'/upgrade_script.'.str_pad($number, 3, "0", STR_PAD_LEFT).'.sql';
+
+	if (!file_exists($sqlFileToExecute))
+	{
+		echo 'Ignored<br />';
+		return;
+	}
+
 	$f = fopen($sqlFileToExecute,'r');
 	$query = fread($f,filesize($sqlFileToExecute));
 	fclose($f);
@@ -146,20 +153,8 @@ function UpgradeAppZoneApplication($application_name)
 
 ?>
 
-<h2>Database upgrade / global for all AppZone</h2>
-<?php UpgradeAppZoneApplication(''); ?>
-
 <h2>Database upgrade / PRM</h2>
 <?php UpgradeAppZoneApplication('prm'); ?>
-
-<h2>Database upgrade / GFC</h2>
-<?php UpgradeAppZoneApplication('gfc'); ?>
-
-<h2>Database upgrade / UNP</h2>
-<?php UpgradeAppZoneApplication('unp'); ?>
-
-<h2>Database upgrade / WorldMap</h2>
-<?php UpgradeAppZoneApplication('worldmap'); ?>
 
 <?php
 

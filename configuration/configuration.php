@@ -1,6 +1,6 @@
 <?php
 $DB_HOST = "localhost";
-$DB_NAME = "prm";
+$DB_NAME = "prm_blank";
 $DB_USER = "root";
 $DB_PASSWORD = "";
 
