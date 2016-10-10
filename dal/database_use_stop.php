@@ -1,5 +1,5 @@
 <?php
 
-mysql_close($link);
+$mysqli->close();
 
 ?>

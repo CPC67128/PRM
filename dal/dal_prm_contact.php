@@ -73,24 +73,28 @@ function GetContactsNextActionsHighlight()
 	return $result;
 }
 
+// OK
 function GetContactRow($ContactId)
 {
 	$result = GetContactResource($ContactId);
-	$row = mysql_fetch_assoc($result);
+	
 
-	return $row;
+	return $result;
 }
 
+// OK
 function GetContactResource($ContactId)
 {
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_contact where contact_id = '.$ContactId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+
+	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
 
-	return $result;
+	return $row;
 }
 
 // Set attribute
