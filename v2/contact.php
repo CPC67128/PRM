@@ -1,5 +1,7 @@
 <?php
 include_once '../dal/dal_prm.php';
+
+$row = GetContactRow(145);
 ?>
 
 <!DOCTYPE html>
@@ -38,8 +40,33 @@ include_once '../dal/dal_prm.php';
 <?php
 
 AddGroup('contact_identity', 'Identité');
+AddGroup('contact_personal', 'Personnel');
 
+function AddTextBox($row, $fieldName, $label, $placeHolder)
+{
+	$value = $row[$fieldName];
 
+	if (strlen($placeHolder) == 0)
+		$placeHolder = $label;
+
+	if (strlen($label) == 0)
+	{
+?>
+<div class="form-group">
+	<input type="text" class="form-control small" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
+</div>
+<?php
+	}
+	else
+	{
+?>
+<div class="form-group">
+	<label for="<?= $fieldName ?>"><?= $label ?></label>
+	<input type="text" class="form-control small" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
+</div>
+<?php
+	}
+}
 ?>
 
 </div>
@@ -52,6 +79,7 @@ AddGroup('contact_identity', 'Identité');
 
 function AddGroup($divId, $title)
 {
+	global $row;
 	$titleId = $divId.'Title';
 
 ?>
@@ -61,4 +89,23 @@ function AddGroup($divId, $title)
 </div>
 <?php
 }
+
+function BeginForm()
+{
+	?>
+<form action="/signup" method="post">
+	<?php
+}
+
+function EndForm()
+{
+	?>
+<div class="pull-right">
+	<button type="button" class="btn btn-primary">Enregistrer</button>
+	<button type="button" id="identity<?= $int ?>Cancel" class="btn btn-default">Annuler</button>
+</div>
+</form>
+<?php
+}
+
 ?>
