@@ -87,7 +87,7 @@ function GetContactResource($ContactId)
 {
 	include 'database_use_start.php';
 
-	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_contact where contact_id = '.$ContactId;
+	$query = 'select cn.*, cm.name as company_name from '.$DB_TABLE_PREFIX.'prm_contact cn left join '.$DB_TABLE_PREFIX.'prm_company cm on cn.company_id = cm.company_id where cn.contact_id = '.$ContactId;
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$row = $result->fetch_assoc();
@@ -239,12 +239,13 @@ function DeleteContact($ContactId)
 }
 
 
+// OK
 function GetNotesFromContact($ContactId)
 {
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_note where contact_id = '.$ContactId.' order by creation_date desc, note_id desc';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 

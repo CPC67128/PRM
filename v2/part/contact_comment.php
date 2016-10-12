@@ -1,16 +1,14 @@
-<?php
-include 'form_management.php';
-begin_form();
-?>
-<input type="hidden" name="contact_id" value="<?php echo $row["contact_id"]; ?>">
-<table>
-<tbody>
-<?php
-$detail = '';
-add_new_row_to_detail('Commentaire', 'comment');
-add_new_row_to_detail('Actions à faire', 'next_action');
-echo $detail;
-?>
-</tbody>
-</table>
-<?php end_form('Mettre à jour', '../prm_controllers/contact_controller.php?type=update'); ?>
+<?php BeginForm(); ?>
+
+<div class="form-group">
+	<label for="comment">Commentaire</label>
+	<textarea class="form-control" id="comment" rows="5"><?= $row['comment'] ?></textarea>
+</div>
+
+<div class="form-group">
+	<label for="next_action">Actions à faire</label>
+	<textarea class="form-control" id="next_action" rows="5"><?= $row['next_action'] ?></textarea>
+</div>
+
+<?php EndForm(); ?>
+

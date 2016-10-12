@@ -1,23 +1,24 @@
-<?php
-include 'form_management.php';
-begin_form();
-?>
-<table>
-<tr>
-<td>Date</td>
-<td><input type="text" name="new_note_date" value="<?php echo date("Y-m-d"); ?>" size=10 /></td>
-</tr>
-<tr>
-<td>Note</td>
-<td><textarea name="new_note"></textarea></td>
-</tr>
-</table>
-<input type="hidden" name="contact_id" value="<?php echo $row["contact_id"]; ?>">
-<?php end_form('Ajouter', '../prm_controllers/contact_controller.php?type=add_note', true); ?>
+<?php BeginForm(); ?>
+
+<div class="form-group">
+	<label for="new_note_date">Date</label>
+	<input type="text" class="form-control" id="new_note_date" value="<?php echo date("Y-m-d"); ?>" autocomplete="off" >
+</div>
+
+<div class="form-group">
+	<label for="new_note">Note</label>
+	<textarea class="form-control" id="new_note" rows="3"></textarea>
+</div>
+
+
+
+<?php EndForm(); ?>
+
+
 
 <br />
 
-<table class="standardTable" id="notes">
+<table class="table " id="notes">
 <thead>
 <tr>
 <th>Date</th>
@@ -28,11 +29,11 @@ begin_form();
 
 <?php
 $resultat = GetNotesFromContact($row["contact_id"]);
-$n = mysql_num_rows($resultat);
+$n = mysqli_num_rows($resultat);
 
 for ($i = 0; $i < $n; $i++)
 {
-  $ligneNote = mysql_fetch_assoc($resultat);
+  $ligneNote = mysqli_fetch_assoc($resultat);
   ?>
   <tr>
   <td>
@@ -42,7 +43,7 @@ for ($i = 0; $i < $n; $i++)
   <?php echo nl2br($ligneNote["comment"]); ?>
   </td>
   <td>
-  <span class="ui-icon ui-icon-trash" onclick="var confirmation = confirm('Supprimer ?'); if (confirmation) { dojo.xhrPost({url: '../prm_controllers/contact_controller.php?type=remove_note&contact_id=<?php echo $ligneNote["contact_id"]; echo "&"; ?>note_id=<?php echo $ligneNote["note_id"]; ?>', load: function(data, ioArgs) { RefreshCenterPanel(); }}); }"></span>
+  <span class="glyphicon glyphicon-trash" onclick="var confirmation = confirm('Supprimer ?'); if (confirmation) { dojo.xhrPost({url: '../prm_controllers/contact_controller.php?type=remove_note&contact_id=<?php echo $ligneNote["contact_id"]; echo "&"; ?>note_id=<?php echo $ligneNote["note_id"]; ?>', load: function(data, ioArgs) { RefreshCenterPanel(); }}); }"></span>
   </td>
   </tr>
   <?php

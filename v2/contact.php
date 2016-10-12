@@ -39,8 +39,11 @@ $row = GetContactRow(145);
 
 <?php
 
+AddGroup('contact_comment', 'Commentaires');
 AddGroup('contact_identity', 'Identité');
 AddGroup('contact_personal', 'Personnel');
+AddGroup('contact_professional', 'Professionnel');
+AddGroup('contact_followup', 'Suivi');
 
 function AddTextBox($row, $fieldName, $label, $placeHolder)
 {
