@@ -177,7 +177,7 @@ function ExecuteQuery_toremove($query)
 {
 	include 'database_use_start.php';
 
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 

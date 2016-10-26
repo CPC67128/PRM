@@ -121,8 +121,8 @@ function file_GetFileName($File_id)
 	$query = 'select filename
 		from '.$DB_TABLE_PREFIX.'prm_file
 		where file_id = '.$File_id;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = mysqli_fetch_assoc($result);
 
 	include 'database_use_stop.php';
 
@@ -139,8 +139,8 @@ function file_GetOrginalFileName($File_id)
 	$query = 'select original_filename
 		from '.$DB_TABLE_PREFIX.'prm_file
 		where file_id = '.$File_id;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = mysqli_fetch_assoc($result);
 
 	include 'database_use_stop.php';
 

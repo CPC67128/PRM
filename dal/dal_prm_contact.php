@@ -704,8 +704,8 @@ function contact_GetContactPictureFileId($Contact_id)
 			from '.$DB_TABLE_PREFIX.'prm_contact CNT
 			inner join '.$DB_TABLE_PREFIX.'prm_file FIL on CNT.picture_file_id = FIL.file_id
 			where CNT.contact_id = '.$Contact_id;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = mysqli_fetch_assoc($result);
 
 	include 'database_use_stop.php';
 
