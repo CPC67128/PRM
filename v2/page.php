@@ -19,6 +19,6 @@ if ($type == 'contact')
 }
 else
 {
-	include_once 'page_home.php';
+	include_once 'search.php';
 }
 ?>

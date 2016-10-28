@@ -135,5 +135,5 @@ function SetTitle(title) {
 }
 
 $(function() {
-	
+	Refresh();
 });

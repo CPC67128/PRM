@@ -36,31 +36,63 @@ include_once '../dal/dal_prm.php';
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<!-- 
+<nav class="navbar  navbar-default navbar-fixed-top">
   <div class="container-fluid">
-<div class="navbar-header">
-  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-<span class="sr-only">Toggle navigation</span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-  </button>
-  <a class="navbar-brand" href="#" onclick="Reset();">PRM</a>
-  <form class="navbar-form pull-left col-sm-3 col-md-3 ">
-<input type="text" id="searchArea" class="form-control" placeholder="Search...">
-  </form>
-</div>
-<div id="navbar" class="navbar-collapse collapse">
-  <ul class="nav navbar-nav navbar-right">
-<li><a href="#">Dashboard</a></li>
-<li><a href="#">Settings</a></li>
-<li><a href="#">Profile</a></li>
-<li><a href="#">Help</a></li>
-  </ul>
-</div>
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	  </button>
+	  <a class="navbar-brand" href="#" onclick="Reset();">PRM</a>
+	  <form class="navbar-form pull-left col-sm-3 col-md-3 ">
+		<input type="text" id="searchArea" class="form-control" placeholder="Search...">
+	  </form>
+	</div>
+	<div id="navbar" class="navbar-collapse collapse">
+	  <ul class="nav navbar-nav navbar-right">
+		<li><a href="#">Dashboard</a></li>
+		<li><a href="#">Settings</a></li>
+		<li><a href="#">Profile</a></li>
+		<li><a href="#">Help</a></li>
+	  </ul>
+	</div>
   </div>
 </nav>
 
+-->
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+   <div class="container">
+      <div class="navbar-header">
+         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         </button>
+         <a class="navbar-brand hidden-xs" href="#">CompAny</a>
+         <a class="navbar-brand visible-xs" href="#">C</a>
+         <form class="navbar-form pull-left" role="search">
+            <div class="input-group">
+               <input type="text" class="form-control" placeholder="Search">
+               <div class="input-group-btn">
+                  <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+               </div>
+            </div>
+         </form>
+      </div>
+      <div class="navbar-collapse collapse">
+         <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">Browse Courses</a></li>
+            <li><a href="#contact">Active Courses</a></li>
+         </ul>
+      </div>
+      <!--/.navbar-collapse -->
+   </div>
+</div>
 
 <script>
 $("#searchArea").keypress(function() {

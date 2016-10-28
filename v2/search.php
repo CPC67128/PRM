@@ -84,7 +84,7 @@ while ( $aRow = mysqli_fetch_array( $rResult ) )
 	}
 	$row['id'] = $id;
 	$row['type'] = $type;
-	$row['fullName'] = $fullName.", Contact";
+	$row['fullName'] = $fullName;
 	$contacts[]= $row;
 }
 
@@ -209,16 +209,23 @@ while ( $aRow = mysqli_fetch_array( $rResult ) )
 for ($i=0 ; $i < count($contacts) ; $i++ )
 {
 	$picture_file_id = contact_GetContactPictureFileId($contacts[$i]['id']);
-	//if ($picture_file_id >= 0)
+	$row = GetContactRow($contacts[$i]['id']);
+
+	if ($picture_file_id >= 0)
+		$pictureUrl = "download.php?file_id=".$picture_file_id;
+	else
+		$pictureUrl = "avatar-blank.jpg";
 	
 ?>
 <li class="list-group-item">
-    <div class="col-xs-12 col-sm-3">
-        <img src="download.php?file_id=<?= $picture_file_id ?>" alt="download.php?file_id=<?= $picture_file_id ?>" class="img-responsive img-circle" />
+    <div class="col-xs-4 col-sm-3 col-ld-1">
+        <img src="<?= $pictureUrl ?>" class="img-responsive img-circle img-limit" />
     </div>
-    <div class="col-xs-12 col-sm-9">
-        <span class="name"><?= $contacts[$i]['fullName'] ?> <?= $contacts[$i]['id'] ?></span><br/>
-        <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_CONTACT, <?= $contacts[$i]['id'] ?>);">Enregistrer</button>
+    <div class="col-xs-8">
+        <span class="name"><?= $row['first_name'] ?> <?= $row['last_name'] ?></span><br/>
+        <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_CONTACT, <?= $contacts[$i]['id'] ?>);">Modifier</button>
+	</div>
+    <div class="col-xs-12 col-sm-9 col-ld-11">
         <span class="glyphicon glyphicon-map-marker text-muted c-info" data-toggle="tooltip" title="5842 Hillcrest Rd"></span>
         <span class="visible-xs"> <span class="text-muted">5842 Hillcrest Rd</span><br/></span>
         <span class="glyphicon glyphicon-earphone text-muted c-info" data-toggle="tooltip" title="(870) 288-4149"></span>
