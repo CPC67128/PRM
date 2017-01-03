@@ -28,10 +28,10 @@ begin_form();
 
 <?php
 $resultat = GetCompanyAttributes($row["company_id"]);
-$n = mysql_num_rows($resultat);
+$n = $resultat->num_rows;
 for ($i = 0; $i < $n; $i++)
 {
-  $ligneAttribute = mysql_fetch_assoc($resultat);
+  $ligneAttribute = $resultat->fetch_assoc();
   ?>
 
   <tr>
@@ -57,7 +57,7 @@ var availableTagsAttributes = [
 	<?php
 		$resultat = GetAttributeNamesForCompany();
 		$first_record = true;
-		while ($ligne = mysql_fetch_assoc($resultat))
+		while ($ligne = $resultat->fetch_assoc())
 		{
 		  if (!$first_record)
 		  	echo ',';

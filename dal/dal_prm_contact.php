@@ -14,7 +14,7 @@ function GetContactAttributes($ContactId)
 		inner join '.$DB_TABLE_PREFIX.'prm_attribute A on A.attribute_id = CA.attribute_id
 		where CA.contact_id = '.$ContactId.'
 		order by attribute';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -37,7 +37,7 @@ function GetBirthdaysHighlight()
 		where birthday between date_add(now(), INTERVAL -2 WEEK) and date_add(now(), INTERVAL +2 MONTH)
 		and ifnull(archived, 0) != 1
 		order by birthday";
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -51,7 +51,7 @@ function GetContactsToUpdateHighlight()
 	$query = "select contact_id, first_name, last_name FROM ".$DB_TABLE_PREFIX."prm_contact 
 		where ifnull(archived, 0) != 1
 		order by ifnull(last_view, '1900-01-01') asc limit 3";
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -66,7 +66,7 @@ function GetContactsNextActionsHighlight()
 		from ".$DB_TABLE_PREFIX."prm_contact
 		where ifnull(next_action, '') != ''
 		order by ifnull(last_update, '1900-01-01') asc";
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -107,8 +107,8 @@ function SetAttributeToContact($ContactId, $Attribute, $CreationDate)
 
 	$query = sprintf("select attribute_id from ".$DB_TABLE_PREFIX."prm_attribute where attribute='%s'",
 		(get_magic_quotes_gpc() ? $Attribute : mysql_real_escape_string($Attribute)));
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = $result->fetch_assoc();
 
 	if (!isset($row["attribute_id"]))
 		return;
@@ -116,13 +116,13 @@ function SetAttributeToContact($ContactId, $Attribute, $CreationDate)
 	$query = sprintf("delete from ".$DB_TABLE_PREFIX."prm_contact_attribute where contact_id = %s and attribute_id = %s",
 		$ContactId,
 		$row["attribute_id"]);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_contact_attribute (contact_id, attribute_id, creation_date) values (%s, %s, '%s')",
 		$ContactId,
 		$row["attribute_id"],
 		mysql_real_escape_string($CreationDate));
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateContactLastUpdateDate($ContactId);
 
@@ -138,7 +138,7 @@ function UpdateLastContactDate($ContactId)
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set last_contact = curdate() where contact_id = %s",
 		$ContactId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	
 	_UpdateContactLastUpdateDate($ContactId);
 	
@@ -166,7 +166,7 @@ function UpdateLastViewDate($ContactId)
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set last_view = curdate() where contact_id = %s",
 	$ContactId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 }
@@ -180,7 +180,7 @@ function _UpdateContactLastUpdateDate($ContactId)
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set last_update = curdate() where contact_id = %s",
 		$ContactId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 }
 
 function UpdateRegularContact($ContactId, $Value)
@@ -193,7 +193,7 @@ function UpdateRegularContact($ContactId, $Value)
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set regular_contact = %s where contact_id = %s",
 		$Value,
 		$ContactId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 }
@@ -208,13 +208,13 @@ function ArchiveContact($ContactId)
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set archived = 1 where contact_id = %s",
 		$_POST["contact_id"]);
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (contact_id, comment, creation_date) values (%s, '%s', now())",
 		$_POST["contact_id"],
 		'Archivage',
 		USER_ID);
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateContactLastUpdateDate($ContactId);
 
@@ -230,10 +230,10 @@ function DeleteContact($ContactId)
 	include 'database_use_start.php';
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_contact_attribute where contact_id = '.$ContactId;
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_contact where contact_id = '.$ContactId;
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 }
@@ -263,7 +263,7 @@ function AddNoteToContact($ContactId, $Note, $CreationDate)
 		$ContactId,
 		FormatStringForSqlQuery($Note),
 		$CreationDate);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateContactLastUpdateDate($ContactId);
 
@@ -279,7 +279,7 @@ function RemoveNoteFromContact($ContactId, $NoteId)
 
 	$query = sprintf("delete from ".$DB_TABLE_PREFIX."prm_note where note_id = %s",
 		$NoteId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateContactLastUpdateDate($ContactId);
 
@@ -295,7 +295,7 @@ function RemoveAttributeFromContact($ContactId, $ContactAttributeId)
 
 	$query = sprintf("delete from ".$DB_TABLE_PREFIX."prm_contact_attribute where contact_attribute_id = %s",
 		$ContactAttributeId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateContactLastUpdateDate($ContactId);
 
@@ -312,7 +312,7 @@ function UpdatePictureFileName($ContactId, $PictureFileName)
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set picture_file_name = '%s' where contact_id = %s",
 		(get_magic_quotes_gpc() ? $PictureFileName: mysql_real_escape_string($PictureFileName)),
 		$ContactId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateContactLastUpdateDate($ContactId);
 
@@ -329,7 +329,7 @@ function SetPictureFileToContact($ContactId, $FileId)
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set picture_file_id = %s where contact_id = %s",
 		$FileId,
 		$ContactId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	
 	_UpdateContactLastUpdateDate($ContactId);
 	
@@ -344,9 +344,9 @@ function UpdateContact($ContactId, $post)
 	include 'database_use_start.php';
 
 	$query = "select * from ".$DB_TABLE_PREFIX."prm_contact where contact_id = ".$ContactId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
-	$row = mysql_fetch_assoc($result);
+	$row = $result->fetch_assoc();
 
 	$fields_checkbox = array("regular_contact");
 	$fields_to_ignore = array("notes_length", "attributes_length", "new_attribute", "new_note", "new_attribute_date", "new_note_date", "relations_contact_to_contact_length");
@@ -369,12 +369,12 @@ function UpdateContact($ContactId, $post)
 		{
 			// We look for the new company
 			$requete = "select * from ".$DB_TABLE_PREFIX."prm_company where name = '".FormatStringForSqlQuery($field_value)."'";
-			$resultat = mysql_query($requete) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+			$resultat = $mysqli->query($requete) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 			$ligne_company = mysql_fetch_assoc($resultat);
 
 			// We look for the current company name
 			$requete = 'select company_id, name from '.$DB_TABLE_PREFIX.'prm_company where company_id in (select company_id from '.$DB_TABLE_PREFIX.'prm_contact where contact_id = '.$ContactId.')';
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 			$ligne_contact = mysql_fetch_assoc($resultat);
 
 			$field_name = 'company_id';
@@ -439,14 +439,14 @@ function UpdateContact($ContactId, $post)
 	{
 		//die($update_query);
 		$query = 'update '.$DB_TABLE_PREFIX.'prm_contact set '.$update_query.' where contact_id = '.$ContactId;
-		mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+		$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 		if (strlen($note_comment) > 0)
 		{
 			$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (contact_id, comment, creation_date) values (%s, '%s', now())",
 					$ContactId,
 					ForceFormatStringForSqlQuery($note_comment));
-			$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+			$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 		}
 
 		_UpdateContactLastUpdateDate($ContactId);
@@ -463,9 +463,9 @@ function OBSOLETEUpdateContact($ContactId, $post)
 	include 'database_use_start.php';
 
 	$query = "select * from ".$DB_TABLE_PREFIX."prm_contact where contact_id = ".$ContactId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
-	$row = mysql_fetch_assoc($result);
+	$row = $result->fetch_assoc();
 
 	$fields_checkbox = array("regular_contact");
 	$fields_to_ignore = array("notes_length", "attributes_length", "new_attribute", "new_note", "new_attribute_date", "new_note_date", "relations_contact_to_contact_length");
@@ -488,12 +488,12 @@ function OBSOLETEUpdateContact($ContactId, $post)
 		{
 			// We look for the new company
 			$requete = "select * from ".$DB_TABLE_PREFIX."prm_company where name = '".FormatStringForSqlQuery($field_value)."'";
-			$resultat = mysql_query($requete) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+			$resultat = $mysqli->query($requete) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 			$ligne_company = mysql_fetch_assoc($resultat);
 
 			// We look for the current company name
 			$requete = 'select company_id, name from '.$DB_TABLE_PREFIX.'prm_company where company_id in (select company_id from '.$DB_TABLE_PREFIX.'prm_contact where contact_id = '.$ContactId.')';
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 			$ligne_contact = mysql_fetch_assoc($resultat);
 
 			$field_name = 'company_id';
@@ -579,14 +579,14 @@ function OBSOLETEUpdateContact($ContactId, $post)
 	if ($something_has_changed)
 	{
 		$query = 'update '.$DB_TABLE_PREFIX.'prm_contact set '.$update_query.' where contact_id = '.$ContactId;
-		mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+		$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 		if (strlen($note_comment) > 0)
 		{
 			$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (contact_id, comment, creation_date) values (%s, '%s', now())",
 			$ContactId,
 			ForceFormatStringForSqlQuery($note_comment));
-			$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+			$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 		}
 
 		_UpdateContactLastUpdateDate($ContactId);
@@ -606,14 +606,14 @@ function CreateContact($post)
 		FormatStringForSqlQuery($post["gender"]),
 		FormatStringForSqlQuery($post["first_name"]),
 		FormatStringForSqlQuery($post["last_name"]));
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$newId = mysql_insert_id();
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (contact_id, comment, creation_date) values (%s, '%s', now())",
 		$newId,
 		'Création');
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 	
@@ -625,7 +625,7 @@ function GetRelationsFromContactToContact($ContactId)
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_relation_contact_to_contact where (left_contact_id = '.$ContactId.' or right_contact_id = '.$ContactId.') order by creation_date desc';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -646,7 +646,7 @@ function AddRelationFromContactToContact($LeftContactId, $RelationTypeId, $Right
 		$LeftContactId,
 		$RelationTypeId,
 		$RightContactId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -662,7 +662,7 @@ function RemoveRelationFromContactToContact($RelationId)
 
 	$query = sprintf("delete from ".$DB_TABLE_PREFIX."prm_relation_contact_to_contact where relation_contact_to_contact_id = %s",
 		$RelationId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -676,8 +676,8 @@ function GetContactShortDescription($ContactId)
 	$query = 'select first_name, last_name
 			from '.$DB_TABLE_PREFIX.'prm_contact
 			where contact_id = '.$ContactId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = $result->fetch_assoc();
 	
 	include 'database_use_stop.php';
 	
@@ -722,8 +722,8 @@ function GetContactGoogleItSearchString($ContactId)
 	$query = 'select first_name, last_name
 		from '.$DB_TABLE_PREFIX.'prm_contact
 		where contact_id = '.$ContactId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
 
@@ -754,8 +754,8 @@ function GetContactGoogleMapsItSearchString($ContactId)
 	$query = 'select personal_address_1, personal_address_2, personal_address_3, personal_zip, personal_city, personal_country
 		from '.$DB_TABLE_PREFIX.'prm_contact
 		where contact_id = '.$ContactId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
 
@@ -789,7 +789,7 @@ function GetRelationTypes()
 	include 'database_use_start.php';
 
 	$query = 'select relation_type_id, description_left_to_right from '.$DB_TABLE_PREFIX.'prm_relation_type order by description_left_to_right asc';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -801,8 +801,8 @@ function GetRelationTypeLeftToRightDescription($RelationTypeId)
 	include 'database_use_start.php';
 
 	$query = 'select relation_type_id, description_left_to_right from '.$DB_TABLE_PREFIX.'prm_relation_type where relation_type_id = '.$RelationTypeId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
 
@@ -814,8 +814,8 @@ function GetRelationTypeRightToLeftDescription($RelationTypeId)
 	include 'database_use_start.php';
 
 	$query = 'select relation_type_id, description_right_to_left from '.$DB_TABLE_PREFIX.'prm_relation_type where relation_type_id = '.$RelationTypeId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
 

@@ -28,11 +28,11 @@ begin_form();
 
 <?php
 $resultat = GetNotesFromCompany($row["company_id"]);
-$n = mysql_num_rows($resultat);
+$n = $resultat->num_rows;
 
 for ($i = 0; $i < $n; $i++)
 {
-  $ligneNote = mysql_fetch_assoc($resultat);
+  $ligneNote = $resultat->fetch_assoc();
   ?>
   <tr>
   <td>

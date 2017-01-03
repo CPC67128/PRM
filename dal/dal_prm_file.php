@@ -5,11 +5,11 @@ function GetFileRow($FileId)
 	include 'database_use_start.php';
 	
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_file where file_id = '.$FileId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	
 	include 'database_use_stop.php';
 
-	$row = mysql_fetch_assoc($result);
+	$row = $result->fetch_assoc();
 
 	return $row;
 }
@@ -19,7 +19,7 @@ function GetFilesFromContact($ContactId)
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_file where record_type = 1 and record_id = '.$ContactId.' order by file_id asc';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -31,7 +31,7 @@ function GetFilesFromCompany($CompanyId)
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_file where record_type = 2 and record_id = '.$CompanyId.' order by file_id asc';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -53,10 +53,10 @@ function DeleteFile($FileId)
 	include 'database_use_start.php';
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_file where file_id = '.$FileId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$query = 'update '.$DB_TABLE_PREFIX.'prm_contact set picture_file_id = null where picture_file_id = '.$FileId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -74,7 +74,7 @@ function InsertFileToContact($ContactId, $Filename, $OriginalFilename)
 	$ContactId,
 	FormatStringForSqlQuery($Filename),
 	FormatStringForSqlQuery($OriginalFilename));
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	UpdateLastUpdateDate($ContactId);
 
@@ -92,7 +92,7 @@ function InsertFileToCompany($CompanyId, $Filename, $OriginalFilename)
 		$CompanyId,
 		FormatStringForSqlQuery($Filename),
 		FormatStringForSqlQuery($OriginalFilename));
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 }
@@ -107,7 +107,7 @@ function SetCompanyPictureFile($CompanyId, $FileId)
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_company set picture_file_id = %s where company_id = %s",
 		$FileId,
 		$CompanyId);
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	UpdateCompanyLastUpdateDate($CompanyId);
 

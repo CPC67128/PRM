@@ -55,13 +55,13 @@ dojo.ready(sendFormPicture);
 <?php
 
 $result = GetFilesFromCompany($row["company_id"]);
-$n = mysql_num_rows($result);
+$n = $result->num_rows;
 
 for ($i = 0; $i < $n; $i++)
 {
 	if ($i > 0)
 		echo "<br /><br />";
-	$rowFile = mysql_fetch_assoc($result);
+	$rowFile = $result->fetch_assoc();
 
 	if (IsFileAPicture($rowFile["filename"]))
 	{

@@ -3,7 +3,7 @@
 function GetAttributeRow($AttributeId)
 {
 	$result = GetAttributeResource($AttributeId);
-	$row = mysql_fetch_assoc($result);
+	$row = $result->fetch_assoc();
 
 	return $row;
 }
@@ -16,7 +16,7 @@ function GetAttributeResource($AttributeId)
 		from '.$DB_TABLE_PREFIX.'prm_attribute
 		where attribute_id = '.$AttributeId.'
 		order by attribute';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -29,7 +29,7 @@ function GetAttributeNamesForCompany()
 	include 'database_use_start.php';
 
 	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'prm_attribute where for_company = 1 order by attribute';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 
@@ -41,7 +41,7 @@ function GetAllAttributesForContact()
 	include 'database_use_start.php';
 	
 	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'prm_attribute where for_contact = 1 order by attribute';
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	
 	include 'database_use_stop.php';
 	
@@ -56,9 +56,9 @@ function UpdateAttribute($AttributeId, $post)
 	include 'database_use_start.php';
 
 	$query = "select * from '.$DB_TABLE_PREFIX.'prm_attribute where attribute_id = ".$AttributeId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
-	$row = mysql_fetch_assoc($result);
+	$row = $result->fetch_assoc();
 
 	$fields_to_ignore = array("attribute_id");
 	$fields_checkbox = array("for_contact", "for_company");
@@ -118,9 +118,9 @@ function UpdateAttribute($AttributeId, $post)
 	if ($something_has_changed)
 	{
 		$update_query = 'update '.$DB_TABLE_PREFIX.'prm_attribute set '.$update_query.' where attribute_id = '.$AttributeId;
-		mysql_query($update_query);
+		$mysqli->query($update_query);
 		
-		mysql_query($delete_query);
+		$mysqli->query($delete_query);
 	}
 }
 
@@ -133,13 +133,13 @@ function DeleteAttribute($AttributeId)
 	include 'database_use_start.php';
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$AttributeId;
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_company_attribute where attribute_id = '.$AttributeId;
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_attribute where attribute_id = '.$AttributeId;
-	mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	include 'database_use_stop.php';
 }
@@ -156,7 +156,7 @@ function CreateAttribute($post)
 		(get_magic_quotes_gpc() ? $Attribute : mysql_real_escape_string($_POST["attribute"])),
 		(isset($post["for_company"]) && $post["for_company"] == 'on' ? '1' : '0'),
 		(isset($post["for_contact"]) && $post["for_contact"] == 'on' ? '1' : '0'));
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$newId = mysql_insert_id();
 
 	include 'database_use_stop.php';
@@ -172,8 +172,8 @@ function GetAttributeShortDescription($AttributeId)
 	$query = 'select attribute
 		from '.$DB_TABLE_PREFIX.'prm_attribute
 		where attribute_id = '.$AttributeId;
-	$result = mysql_query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$row = mysql_fetch_assoc($result);
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
 
