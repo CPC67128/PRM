@@ -5,6 +5,7 @@ $searchString = '';
 if (isset($_GET['search_string']))
 	$searchString = $_GET['search_string'];
 
+include_once '../dal/database_use_start.php';
 // ENTREPRISE
 
 $aColumns = array('company_id', 'name');

@@ -5,6 +5,8 @@ $searchString = '';
 if (isset($_GET['search_string']))
 	$searchString = $_GET['search_string'];
 
+include '../dal/database_use_start.php';
+
 // CONTACTS
 
 $aColumns = array('contact_id', 'first_name', 'last_name');
@@ -87,7 +89,7 @@ while ( $aRow = mysql_fetch_array( $rResult ) )
 	$row['fullName'] = $fullName.", Contact";
 	$contacts[]= $row;
 }
-
+include '../dal/database_use_start.php';
 // ENTREPRISE
 
 $aColumns = array('company_id', 'name');
@@ -150,7 +152,7 @@ while ( $aRow = mysql_fetch_array( $rResult ) )
 	$row['fullName'] = $fullName.", Entreprise";
 	$companies[]= $row;
 }
-
+include '../dal/database_use_start.php';
 // Attributs
 
 $aColumns = array('attribute_id', 'attribute', 'for_contact', 'for_company');
