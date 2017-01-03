@@ -10,12 +10,18 @@ include_once 'dal_common.php';
 
 function FormatStringForSqlQuery($string)
 {
-	return (get_magic_quotes_gpc() ? $string: mysql_real_escape_string($string));
+	include 'database_use_start.php';
+	$result = (get_magic_quotes_gpc() ? $string: $mysqli->real_escape_string($string));
+	include 'database_use_stop.php';
+	return $result;
 }
 
 function ForceFormatStringForSqlQuery($string)
 {
-	return mysql_real_escape_string($string);
+	include 'database_use_start.php';
+	$result = $mysqli->real_escape_string($string);
+	include 'database_use_stop.php';
+	return $result;
 }
 
 function IsFileAPicture($fileName)

@@ -106,7 +106,7 @@ function SetAttributeToContact($ContactId, $Attribute, $CreationDate)
 	include 'database_use_start.php';
 
 	$query = sprintf("select attribute_id from ".$DB_TABLE_PREFIX."prm_attribute where attribute='%s'",
-		(get_magic_quotes_gpc() ? $Attribute : mysql_real_escape_string($Attribute)));
+		(get_magic_quotes_gpc() ? $Attribute : $mysqli->real_escape_string($Attribute)));
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$row = $result->fetch_assoc();
 
@@ -121,7 +121,7 @@ function SetAttributeToContact($ContactId, $Attribute, $CreationDate)
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_contact_attribute (contact_id, attribute_id, creation_date) values (%s, %s, '%s')",
 		$ContactId,
 		$row["attribute_id"],
-		mysql_real_escape_string($CreationDate));
+		$mysqli->real_escape_string($CreationDate));
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateContactLastUpdateDate($ContactId);
@@ -176,11 +176,13 @@ function _UpdateContactLastUpdateDate($ContactId)
 	if (IsReadOnly())
 		return;
 
-	include '../configuration/configuration.php';
+	include 'database_use_start.php';
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set last_update = curdate() where contact_id = %s",
 		$ContactId);
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+
+	include 'database_use_stop.php';
 }
 
 function UpdateRegularContact($ContactId, $Value)
@@ -310,7 +312,7 @@ function UpdatePictureFileName($ContactId, $PictureFileName)
 	include 'database_use_start.php';
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_contact set picture_file_name = '%s' where contact_id = %s",
-		(get_magic_quotes_gpc() ? $PictureFileName: mysql_real_escape_string($PictureFileName)),
+		(get_magic_quotes_gpc() ? $PictureFileName: $mysqli->real_escape_string($PictureFileName)),
 		$ContactId);
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
@@ -370,12 +372,12 @@ function UpdateContact($ContactId, $post)
 			// We look for the new company
 			$requete = "select * from ".$DB_TABLE_PREFIX."prm_company where name = '".FormatStringForSqlQuery($field_value)."'";
 			$resultat = $mysqli->query($requete) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-			$ligne_company = mysql_fetch_assoc($resultat);
+			$ligne_company = $resultat->fetch_assoc();
 
 			// We look for the current company name
 			$requete = 'select company_id, name from '.$DB_TABLE_PREFIX.'prm_company where company_id in (select company_id from '.$DB_TABLE_PREFIX.'prm_contact where contact_id = '.$ContactId.')';
 			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			$ligne_contact = mysql_fetch_assoc($resultat);
+			$ligne_contact = $resultat->fetch_assoc();
 
 			$field_name = 'company_id';
 			if (isset($ligne_company["company_id"]) && $ligne_company["company_id"] != '')
@@ -489,12 +491,12 @@ function OBSOLETEUpdateContact($ContactId, $post)
 			// We look for the new company
 			$requete = "select * from ".$DB_TABLE_PREFIX."prm_company where name = '".FormatStringForSqlQuery($field_value)."'";
 			$resultat = $mysqli->query($requete) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-			$ligne_company = mysql_fetch_assoc($resultat);
+			$ligne_company = $resultat->fetch_assoc();
 
 			// We look for the current company name
 			$requete = 'select company_id, name from '.$DB_TABLE_PREFIX.'prm_company where company_id in (select company_id from '.$DB_TABLE_PREFIX.'prm_contact where contact_id = '.$ContactId.')';
 			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			$ligne_contact = mysql_fetch_assoc($resultat);
+			$ligne_contact = $resultat->fetch_assoc();
 
 			$field_name = 'company_id';
 			if (isset($ligne_company["company_id"]) && $ligne_company["company_id"] != '')

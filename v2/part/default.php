@@ -2,10 +2,10 @@
 <ul>
 <?php
 $resultat = GetBirthdaysHighlight();
-$n = mysql_num_rows($resultat);
+$n = $resultat->num_rows;
 for ($i = 0; $i < $n; $i++)
 {
-	$row = mysql_fetch_assoc($resultat);
+	$row = $resultat->fetch_assoc();
 ?>
 <li>
 <span class="centerLink" onclick="DisplayRecord(TYPE_CONTACT, <?php echo $row["contact_id"]; ?>);">
@@ -23,10 +23,10 @@ for ($i = 0; $i < $n; $i++)
 <ul>
 <?php
 $resultat = GetContactsToUpdateHighlight();
-$n = mysql_num_rows($resultat);
+$n = $resultat->num_rows;
 for ($i = 0; $i < $n; $i++)
 {
-  $row = mysql_fetch_assoc($resultat);
+  $row = $resultat->fetch_assoc();
 ?>
 <li>
 <span class="centerLink" onclick="DisplayRecord(TYPE_CONTACT, <?php echo $row["contact_id"]; ?>);">
@@ -42,10 +42,10 @@ for ($i = 0; $i < $n; $i++)
 <ul>
 <?php
 $resultat = GetContactsNextActionsHighlight();
-$n = mysql_num_rows($resultat);
+$n = $resultat->num_rows;
 for ($i = 0; $i < $n; $i++)
 {
-  $row = mysql_fetch_assoc($resultat);
+  $row = $resultat->fetch_assoc();
 ?>
 <li>
 <span class="centerLink" onclick="DisplayRecord(TYPE_CONTACT, <?php echo $row["contact_id"]; ?>);">
@@ -61,10 +61,10 @@ for ($i = 0; $i < $n; $i++)
 <ul>
 <?php
 $resultat = GetCompaniesNextActionsHighlight();
-$n = mysql_num_rows($resultat);
+$n = $resultat->num_rows;
 for ($i = 0; $i < $n; $i++)
 {
-  $row = mysql_fetch_assoc($resultat);
+  $row = $resultat->fetch_assoc();
 ?>
 <li>
 <span class="centerLink" onclick="DisplayRecord(TYPE_COMPANY, <?php echo $row["company_id"]; ?>);">

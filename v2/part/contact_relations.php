@@ -10,7 +10,7 @@ begin_form();
 <select name="relation_type_id" >
 <?php
 $resultRelationTypes = GetRelationTypes();
-while ($rowRelationType = mysql_fetch_assoc($resultRelationTypes))
+while ($rowRelationType = $resultRelationTypes->fetch_assoc())
 {
   echo '<option value='.$rowRelationType["relation_type_id"].'>'.$rowRelationType["description_left_to_right"].'</option>';
 }
@@ -38,11 +38,11 @@ while ($rowRelationType = mysql_fetch_assoc($resultRelationTypes))
 
 <?php
 $resultat = GetRelationsFromContactToContact($row["contact_id"]);
-$n = mysql_num_rows($resultat);
+$n = $resultat->num_rows;
 
 for ($i = 0; $i < $n; $i++)
 {
-  $ligneRelation = mysql_fetch_assoc($resultat);
+  $ligneRelation = $resultat->fetch_assoc();
   ?>
 
   <tr class="gradeC">

@@ -16,7 +16,7 @@ $(function() {
 	<?php
 	$resultat = GetAllAttributesForContact();
 	$first_record = true;
-	while ($ligne = mysql_fetch_assoc($resultat))
+	while ($ligne = $resultat->fetch_assoc())
 	{
 		if (!$first_record)
 		echo ',';

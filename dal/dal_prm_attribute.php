@@ -79,7 +79,7 @@ function UpdateAttribute($AttributeId, $post)
 				if (strlen($update_query) > 0)
 					$update_query .= ',';
 
-				$update_query .= $field_name.'=\''.(get_magic_quotes_gpc() ? $field_value : mysql_real_escape_string($field_value)).'\'';
+				$update_query .= $field_name.'=\''.(get_magic_quotes_gpc() ? $field_value : $mysqli->real_escape_string($field_value)).'\'';
 
 				$something_has_changed = true;
 			}
@@ -153,7 +153,7 @@ function CreateAttribute($post)
 	include 'database_use_start.php';
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_attribute (attribute, for_company, for_contact) values ('%s', %s, %s)",
-		(get_magic_quotes_gpc() ? $Attribute : mysql_real_escape_string($_POST["attribute"])),
+		(get_magic_quotes_gpc() ? $Attribute : $mysqli->real_escape_string($_POST["attribute"])),
 		(isset($post["for_company"]) && $post["for_company"] == 'on' ? '1' : '0'),
 		(isset($post["for_contact"]) && $post["for_contact"] == 'on' ? '1' : '0'));
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());

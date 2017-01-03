@@ -11,9 +11,11 @@ function IsReadOnly()
 
 function String2StringForSprintfQueryBuilder($String)
 {
+	include 'database_use_start.php';
 	if (get_magic_quotes_gpc())
-		return $String;
+		$result = $String;
 	else
-		return mysql_real_escape_string($String);
+		$result = $mysqli->real_escape_string($String);
+	return $result;
 }
 

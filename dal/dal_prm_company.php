@@ -117,7 +117,7 @@ function SetAttributeToCompany($CompanyId, $Attribute, $CreationDate)
 	include 'database_use_start.php';
 
 	$query = sprintf("select attribute_id from ".$DB_TABLE_PREFIX."prm_attribute where attribute='%s'",
-		(get_magic_quotes_gpc() ? $Attribute : mysql_real_escape_string($Attribute)));
+		(get_magic_quotes_gpc() ? $Attribute : $mysqli->real_escape_string($Attribute)));
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 	$row = $result->fetch_assoc();
 
@@ -132,7 +132,7 @@ function SetAttributeToCompany($CompanyId, $Attribute, $CreationDate)
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_company_attribute (company_id, attribute_id, creation_date) values (%s, %s, '%s')",
 		$CompanyId,
 		$row["attribute_id"],
-		mysql_real_escape_string($CreationDate));
+		$mysqli->real_escape_string($CreationDate));
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateCompanyLastUpdateDate($CompanyId);
@@ -200,7 +200,7 @@ function AddNoteToCompany($CompanyId, $Note)
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (company_id, comment, creation_date) values (%s, '%s', now())",
 		$CompanyId,
-		(get_magic_quotes_gpc() ? $Note : mysql_real_escape_string($Note)));
+		(get_magic_quotes_gpc() ? $Note : $mysqli->real_escape_string($Note)));
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
 	_UpdateCompanyLastUpdateDate($CompanyId);
@@ -277,7 +277,7 @@ function UpdateCompany($CompanyId, $post)
 				if (strlen($update_query) > 0)
 					$update_query .= ',';
 
-				$update_query .= $field_name.'=\''.(get_magic_quotes_gpc() ? $field_value : mysql_real_escape_string($field_value)).'\'';
+				$update_query .= $field_name.'=\''.(get_magic_quotes_gpc() ? $field_value : $mysqli->real_escape_string($field_value)).'\'';
 				$something_has_changed = true;
 			}
 		}
@@ -292,7 +292,7 @@ function UpdateCompany($CompanyId, $post)
 		{
 			$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (company_id, comment, creation_date) values (%s, '%s', now())",
 				$CompanyId,
-				(get_magic_quotes_gpc() ? $Note : mysql_real_escape_string($note_comment)));
+				(get_magic_quotes_gpc() ? $Note : $mysqli->real_escape_string($note_comment)));
 			$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 		}
 

@@ -38,10 +38,10 @@ function invalidate_emails($post)
 					"personal_msn like '%".$current_email."%' or ".
 					"professional_email like '%".$current_email."%' or ".
 					"professional_email_2 like '%".$current_email."%' )";
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			if (mysql_num_rows($resultat) > 0)
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			if ($resultat->num_rows > 0)
 			{
-				$ligne = mysql_fetch_assoc($resultat);
+				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
 			mysql_free_result($resultat);
@@ -49,22 +49,22 @@ function invalidate_emails($post)
 			if ($contact_id >= 0)
 			{
 				$requete = "update ".$DB_TABLE_PREFIX."prm_contact set personal_email_1 = '' where personal_email_1 like '%".$current_email."%' and contact_id = ".$contact_id;
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 				$numberOfChange += mysql_affected_rows();
 				$requete = "update ".$DB_TABLE_PREFIX."prm_contact set personal_email_2 = '' where personal_email_2 like '%".$current_email."%' and contact_id = ".$contact_id;
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 				$numberOfChange += mysql_affected_rows();
 				$requete = "update ".$DB_TABLE_PREFIX."prm_contact set personal_msn = '' where personal_msn like '%".$current_email."%' and contact_id = ".$contact_id;
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 				$numberOfChange += mysql_affected_rows();
 				$requete = "update ".$DB_TABLE_PREFIX."prm_contact set professional_email = '' where professional_email like '%".$current_email."%' and contact_id = ".$contact_id;
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 				$numberOfChange += mysql_affected_rows();
 				$requete = "update ".$DB_TABLE_PREFIX."prm_contact set professional_email_2 = '' where professional_email_2 like '%".$current_email."%' and contact_id = ".$contact_id;
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 				$numberOfChange += mysql_affected_rows();
 				$requete = "insert into ".$DB_TABLE_PREFIX."prm_note (contact_id, comment, creation_date) values (".$contact_id.", 'Email invalidé : ".$current_email."', curdate())";
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
 
 				$message .= $current_email.'<br/>';
 			}
@@ -115,8 +115,8 @@ function check_emails_in_database($post)
 				"personal_msn like '%".$current_email."%' or ".
 				"professional_email like '%".$current_email."%' or ".
 				"professional_email_2 like '%".$current_email."%' )";
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			if (mysql_num_rows($resultat) > 0)
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			if ($resultat->num_rows > 0)
 			{
 				$in_here = true;
 			}
@@ -148,10 +148,10 @@ function set_attribute_to_emails($post)
 	$message = "";
 
 	$requete = "select * from ".$DB_TABLE_PREFIX."prm_attribute where attribute = '".FormatStringForSqlQuery($_POST["attribute"])."'";
-	$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-	if (mysql_num_rows($resultat) > 0)
+	$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+	if ($resultat->num_rows > 0)
 	{
-		$ligne = mysql_fetch_assoc($resultat);
+		$ligne = $resultat->fetch_assoc();
 		$attribute_id = $ligne["attribute_id"];
 		$attribute = $ligne["attribute"];
 	}
@@ -188,10 +188,10 @@ function set_attribute_to_emails($post)
 				"personal_msn like '%".FormatStringForSqlQuery($current_email)."%' or ".
 				"professional_email like '%".FormatStringForSqlQuery($current_email)."%' or ".
 				"professional_email_2 like '%".FormatStringForSqlQuery($current_email)."%' )";
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			if (mysql_num_rows($resultat) > 0)
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			if ($resultat->num_rows > 0)
 			{
-				$ligne = mysql_fetch_assoc($resultat);
+				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
 			mysql_free_result($resultat);
@@ -199,14 +199,14 @@ function set_attribute_to_emails($post)
 			if ($contact_id >= 0)
 			{
 				$requete = "select contact_id from ".$DB_TABLE_PREFIX."prm_contact_attribute where contact_id = ".$contact_id." and attribute_id = ".$attribute_id;
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-				if (mysql_num_rows($resultat) == 0)
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				if ($resultat->num_rows == 0)
 				{
 					$note_comment  = sprintf("insert into ".$DB_TABLE_PREFIX."prm_contact_attribute (contact_id, attribute_id, creation_date) values (%s, %s, curdate())", $contact_id, $attribute_id);
-					mysql_query($note_comment);
+					$mysqli->query($note_comment);
 
 					$last_update = 'update '.$DB_TABLE_PREFIX.'prm_contact set last_update = curdate() where contact_id = '.$contact_id;
-					mysql_query($last_update);
+					$mysqli->query($last_update);
 
 					$message .= '(+1)';
 				}
@@ -259,10 +259,10 @@ function set_last_contact_date_to_emails($post)
 					"personal_msn like '%".FormatStringForSqlQuery($current_email)."%' or ".
 					"professional_email like '%".FormatStringForSqlQuery($current_email)."%' or ".
 					"professional_email_2 like '%".FormatStringForSqlQuery($current_email)."%' )";
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			if (mysql_num_rows($resultat) > 0)
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			if ($resultat->num_rows > 0)
 			{
-				$ligne = mysql_fetch_assoc($resultat);
+				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
 			mysql_free_result($resultat);
@@ -270,7 +270,7 @@ function set_last_contact_date_to_emails($post)
 			if ($contact_id >= 0)
 			{
 				$last_contact = 'update '.$DB_TABLE_PREFIX.'prm_contact set last_contact = curdate() where contact_id = '.$contact_id;
-				mysql_query($last_contact);
+				$mysqli->query($last_contact);
 
 				$message .= $current_email.'<br/>';
 			}
@@ -294,10 +294,10 @@ function remove_attribute_to_emails($post)
 	$message = "";
 
 	$requete = "select * from ".$DB_TABLE_PREFIX."prm_attribute where attribute = '".FormatStringForSqlQuery($_POST["attribute"])."'";
-	$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-	if (mysql_num_rows($resultat) > 0)
+	$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+	if ($resultat->num_rows > 0)
 	{
-		$ligne = mysql_fetch_assoc($resultat);
+		$ligne = $resultat->fetch_assoc();
 		$attribute_id = $ligne["attribute_id"];
 		$attribute = $ligne["attribute"];
 	}
@@ -334,10 +334,10 @@ function remove_attribute_to_emails($post)
 					"personal_msn like '%".FormatStringForSqlQuery($current_email)."%' or ".
 					"professional_email like '%".FormatStringForSqlQuery($current_email)."%' or ".
 					"professional_email_2 like '%".FormatStringForSqlQuery($current_email)."%' )";
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			if (mysql_num_rows($resultat) > 0)
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			if ($resultat->num_rows > 0)
 			{
-				$ligne = mysql_fetch_assoc($resultat);
+				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
 			mysql_free_result($resultat);
@@ -345,14 +345,14 @@ function remove_attribute_to_emails($post)
 			if ($contact_id >= 0)
 			{
 				$requete = "select contact_id from ".$DB_TABLE_PREFIX."prm_contact_attribute where contact_id = ".$contact_id." and attribute_id = ".$attribute_id;
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-				if (mysql_num_rows($resultat) > 0)
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+				if ($resultat->num_rows > 0)
 				{
 					$note_comment  = sprintf("delete from ".$DB_TABLE_PREFIX."prm_contact_attribute where contact_id = %s and attribute_id = %s", $contact_id, $attribute_id);
-					mysql_query($note_comment);
+					$mysqli->query($note_comment);
 
 					$last_update = 'update '.$DB_TABLE_PREFIX.'prm_contact set last_update = curdate() where contact_id = '.$contact_id;
-					mysql_query($last_update);
+					$mysqli->query($last_update);
 
 					$message .= '(-1)';
 				}
@@ -384,10 +384,10 @@ function export_emails($post)
 		if ($post['attribute_include_'.$i] != '')
 		{
 			$requete = "select attribute_id from ".$DB_TABLE_PREFIX."prm_attribute where attribute = '".FormatStringForSqlQuery($_POST['attribute_include_'.$i])."'";
-			$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			if (mysql_num_rows($resultat) > 0)
+			$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			if ($resultat->num_rows > 0)
 			{
-				$ligne = mysql_fetch_assoc($resultat);
+				$ligne = $resultat->fetch_assoc();
 				$attribute_id = $ligne["attribute_id"];
 
 				$where .= ($where == '' ? ' where ' : ' and ').' contact_id in (select contact_id from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$attribute_id.') ';
@@ -401,10 +401,10 @@ function export_emails($post)
 		if ($post['attribute_exclude_'.$i] != '')
 		{
 			$requete = "select attribute_id from ".$DB_TABLE_PREFIX."prm_attribute where attribute = '".FormatStringForSqlQuery($_POST['attribute_exclude_'.$i])."'";
-				$resultat = mysql_query($requete) or die ('Erreur '.$requete.' '.mysql_error());
-			if (mysql_num_rows($resultat) > 0)
+				$resultat = $mysqli->query($requete) or die ('Erreur '.$requete.' '.mysql_error());
+			if ($resultat->num_rows > 0)
 			{
-				$ligne = mysql_fetch_assoc($resultat);
+				$ligne = $resultat->fetch_assoc();
 				$attribute_id = $ligne["attribute_id"];
 
 				$where .= ($where == '' ? ' where ' : ' and ').' contact_id not in (select contact_id from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$attribute_id.') ';
@@ -435,10 +435,10 @@ function export_emails($post)
 	$extraWhere .= ' and personal_msn is not null';
 	$sqlQuery .= 'select personal_msn as email from '.$DB_TABLE_PREFIX.'prm_contact '.$where.$extraWhere.$userLimitationWhere;
 
-	$resultat = mysql_query($sqlQuery) or die ('Erreur '.$sqlQuery.' '.mysql_error());
+	$resultat = $mysqli->query($sqlQuery) or die ('Erreur '.$sqlQuery.' '.mysql_error());
 	
 	$message = '';
-	while ($ligne = mysql_fetch_assoc($resultat))
+	while ($ligne = $resultat->fetch_assoc())
 	{
 		$message .= $ligne["email"].'<br />';
 	}

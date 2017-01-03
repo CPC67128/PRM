@@ -36,7 +36,7 @@ if ($searchString != "" )
 
 $requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."prm_configuration";
 $resultat_cnf = ExecuteQuery_toremove($requete_cnf);
-$ligne_cnf = mysql_fetch_assoc($resultat_cnf);
+$ligne_cnf = $resultat_cnf->fetch_assoc();
 if (!$ligne_cnf["view_archived"])
 {
 	if ( $sWhere == "" )
@@ -70,7 +70,7 @@ $row['fullName'] = "Ajouter un contact";
 $contacts[]= $row;
 */
 
-while ( $aRow = mysql_fetch_array( $rResult ) )
+while ( $aRow = $rResult->fetch_array() )
 {
 	$row = array();
 	$id = -1;
@@ -111,7 +111,7 @@ if ($searchString != "" )
 
 $requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."prm_configuration";
 $resultat_cnf = ExecuteQuery_toremove($requete_cnf);
-$ligne_cnf = mysql_fetch_assoc($resultat_cnf);
+$ligne_cnf = $resultat_cnf->fetch_assoc();
 if (!$ligne_cnf["view_archived"])
 {
 	if ( $sWhere == "" )
@@ -134,7 +134,7 @@ $sQuery = "
 $rResult = ExecuteQuery_toremove($sQuery);
 
 $companies = array();
-while ( $aRow = mysql_fetch_array( $rResult ) )
+while ( $aRow = $rResult->fetch_array() )
 {
 	$row = array();
 	$id = -1;
@@ -186,7 +186,7 @@ $rResult = ExecuteQuery_toremove($sQuery);
 
 $attributes = array();
 $type = 'attribute';
-while ( $aRow = mysql_fetch_array( $rResult ) )
+while ( $aRow = $rResult->fetch_array() )
 {
 	$row = array();
 	$id = -1;
