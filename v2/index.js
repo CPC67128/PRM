@@ -20,6 +20,7 @@ var currentContext = new Context(TYPE_UNDEFINED, ID_UNDEFINED, PAGE_UNDEFINED);
 function ManageHash() {
 	console.log("ManageHash() called");
 	var hash = document.location.hash.replace("#", "");
+	console.log("ManageHash() called" + hash);
 	var hashSplit = hash.split("/");
 
 	if (hashSplit.length == 3) {
@@ -53,7 +54,7 @@ function GetContextStringRepresentationForCall() {
 }
 
 function Refresh() {
-	console.log("Refresh() called");
+	console.log("Refresh() called: " + currentContext.type + "/" + currentContext.id + "/" + currentContext.page);
 
 	$.post("page.php",
 		    {
@@ -77,6 +78,7 @@ function CreateRecord($type) {
 }
 
 function DisplayRecord($type, $id) {
+	console.log("DisplayRecord(" + $type + ", " + $id + ") called");
 	currentContext.type = $type;
 	currentContext.id = $id;
 	currentContext.page = PAGE_UNDEFINED;
@@ -103,9 +105,13 @@ function ExtendLeftPanel() {
 }
 
 function UpdateUrl() {
+	console.log("UpdateUrl()");
+
 	var hash = currentContext.type;
 	hash += "/" + currentContext.id;
 	hash += "/" + currentContext.page;
+
+	console.log(hash);
 
 	document.location.hash = hash;
 

@@ -7,11 +7,11 @@
 <meta name="Description" content="Gestionnaire de relations personnelles ou privées par Steve Fuchs : base de contacts, anniversaires, qualification des contacts, entreprises et recrutement, ...">
 <link rel="shortcut icon" type="image/ico" href="handshake.ico" />
 <link rel="stylesheet" type="text/css" href="../3rd_party/jquery-ui-1.11.2.custom/jquery-ui.theme.min.css" media="screen" />	
-<link rel="stylesheet" type="text/css" href="../3rd_party/dojo-release-1.10.4/dijit/themes/claro/claro.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../3rd_party/dojo-release-1.12.1/dijit/themes/claro/claro.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="prm.css" media="screen" />
 <script type="text/javascript" src="../3rd_party/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="../3rd_party/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
-<script type="text/javascript" src="../3rd_party/dojo-release-1.10.4/dojo/dojo.js" data-dojo-config="parseOnLoad: true"></script>
+<script type="text/javascript" src="../3rd_party/dojo-release-1.12.1/dojo/dojo.js" data-dojo-config="parseOnLoad: true"></script>
 <script type="text/javascript" src="prm.js"></script>
 </head>
 
@@ -24,7 +24,7 @@
 		<td>
 		<button data-dojo-type="dijit.form.Button" type="button" class="headerButton" onclick="ResetScreen();">Accueil</button>
 		</td>
-		<td><span class="ui-widget"><input id="search" title="Search..."/></span>
+		<td><span class="ui-widget"><input id="search" title="Search..." data-dojo-type="dijit.form.TextBox"   autocomplete="on"/></span>
 	    </td>
 	    <td>
 	    <span id="AddActions">

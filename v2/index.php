@@ -10,7 +10,7 @@ include_once '../dal/dal_prm.php';
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Bootstrap 101 Template</title>
+<title>PRM</title>
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -22,6 +22,7 @@ include_once '../dal/dal_prm.php';
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+<link rel="shortcut icon" type="image/ico" href="handshake.ico" />
 <link href="prm.css" rel="stylesheet">
 <style>
 .panel > .panel-heading {
@@ -72,11 +73,11 @@ include_once '../dal/dal_prm.php';
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
          </button>
-         <a class="navbar-brand hidden-xs" href="#">CompAny</a>
-         <a class="navbar-brand visible-xs" href="#">C</a>
+         <a class="navbar-brand hidden-xs" href="#">PRM</a>
+         <a class="navbar-brand visible-xs" href="#"></a>
          <form class="navbar-form pull-left" role="search">
             <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search">
+               <input type="text" id="searchArea" class="form-control" placeholder="Search">
                <div class="input-group-btn">
                   <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                </div>
@@ -85,9 +86,9 @@ include_once '../dal/dal_prm.php';
       </div>
       <div class="navbar-collapse collapse">
          <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Browse Courses</a></li>
-            <li><a href="#contact">Active Courses</a></li>
+            <li><a href="#">+ Contact</a></li>
+            <li><a href="#about">+ Entreprise</a></li>
+            <li><a href="#contact">+ Attribut</a></li>
          </ul>
       </div>
       <!--/.navbar-collapse -->
@@ -95,6 +96,8 @@ include_once '../dal/dal_prm.php';
 </div>
 
 <script>
+$("#searchArea").focus(function() { this.select(); });
+
 $("#searchArea").keypress(function() {
 	var search = $("#searchArea").val();
 	console.log(search);
@@ -102,13 +105,13 @@ $("#searchArea").keypress(function() {
 
 	$.post("search.php",
 		    {
-		        //name: "Donald Duck",
-		        //city: "Duckburg"
+				search_string: search
 		    },
 		    function(data, status){
 		    	$("#searchResult").html("Data: " + data + "\nStatus: " + status);
 		    });
 });
+
 </script>
 
 

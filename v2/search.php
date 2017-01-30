@@ -2,8 +2,8 @@
 include_once '../dal/dal_prm.php';
 
 $searchString = '';
-if (isset($_GET['search_string']))
-	$searchString = $_GET['search_string'];
+if (isset($_POST['search_string']))
+	$searchString = $_POST['search_string'];
 
 // CONTACTS
 
@@ -203,10 +203,31 @@ while ( $aRow = mysqli_fetch_array( $rResult ) )
 }
 
 ?>
+
 <ul class="list-group" id="contact-list">
 <?php
 
-for ($i=0 ; $i < count($contacts) ; $i++ )
+for ($i=0 ; $i < count($attributes) && $i < 10 ; $i++ )
+{
+	$row = GetAttributeRow($attributes[$i]['id']);
+?>
+<li class="list-group-item">
+    <div class="col-xs-8">
+        <span class="name"><?= $row['attribute'] ?></span>
+        <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_ATTRIBUTE, <?= $attributes[$i]['id'] ?>);">Modifier</button>
+	</div>
+    <div class="clearfix"></div>
+</li>
+<?php
+}
+
+?>
+</ul>
+
+<ul class="list-group" id="contact-list">
+<?php
+
+for ($i=0 ; $i < count($contacts) && $i < 10 ; $i++ )
 {
 	$picture_file_id = contact_GetContactPictureFileId($contacts[$i]['id']);
 	$row = GetContactRow($contacts[$i]['id']);
@@ -215,29 +236,38 @@ for ($i=0 ; $i < count($contacts) ; $i++ )
 		$pictureUrl = "download.php?file_id=".$picture_file_id;
 	else
 		$pictureUrl = "avatar-blank.jpg";
+	$pictureUrl = "avatar-blank.jpg";
 	
 ?>
 <li class="list-group-item">
-    <div class="col-xs-4 col-sm-3 col-ld-1">
-        <img src="<?= $pictureUrl ?>" class="img-responsive img-circle img-limit" />
-    </div>
     <div class="col-xs-8">
-        <span class="name"><?= $row['first_name'] ?> <?= $row['last_name'] ?></span><br/>
+        <span class="name"><?= $row['first_name'] ?> <?= $row['last_name'] ?></span>
         <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_CONTACT, <?= $contacts[$i]['id'] ?>);">Modifier</button>
 	</div>
-    <div class="col-xs-12 col-sm-9 col-ld-11">
-        <span class="glyphicon glyphicon-map-marker text-muted c-info" data-toggle="tooltip" title="5842 Hillcrest Rd"></span>
-        <span class="visible-xs"> <span class="text-muted">5842 Hillcrest Rd</span><br/></span>
-        <span class="glyphicon glyphicon-earphone text-muted c-info" data-toggle="tooltip" title="(870) 288-4149"></span>
-        <span class="visible-xs"> <span class="text-muted">(870) 288-4149</span><br/></span>
-        <span class="fa fa-comments text-muted c-info" data-toggle="tooltip" title="scott.stevens@example.com"></span>
-        <span class="visible-xs"> <span class="text-muted">scott.stevens@example.com</span><br/></span>
-    </div>
     <div class="clearfix"></div>
 </li>
 <?php
 }
 
 ?>
+</ul>
 
+<ul class="list-group" id="contact-list">
+<?php
+
+for ($i=0 ; $i < count($companies) && $i < 10 ; $i++ )
+{
+	$row = GetCompanyRow($companies[$i]['id']);
+?>
+<li class="list-group-item">
+    <div class="col-xs-8">
+        <span class="name"><?= $row['name'] ?></span>
+        <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_COMPANY, <?= $companies[$i]['id'] ?>);">Modifier</button>
+	</div>
+    <div class="clearfix"></div>
+</li>
+<?php
+}
+
+?>
 </ul>

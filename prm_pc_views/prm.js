@@ -40,6 +40,7 @@ require(["dojo/parser",
          "dijit/layout/BorderContainer",
          "dojox/data/QueryReadStore",
          "dojo/_base/lang", "dojo/_base/xhr","dojo/io/iframe",
+         "dojo/ready", "dojo/store/JsonRest", "dijit/form/ComboBox",
          "dojo/domReady!"]);
 require(["dojo/ready", "dijit/form/ComboBox"], function(ready, comboBox) {
 	ready(function() {

@@ -13,12 +13,11 @@ $page = '';
 if (isset($_POST['page']))
 	$page = $_POST['page'];
 
-if ($type == 'contact')
+switch ($type)
 {
-	include_once 'page_contact.php';
-}
-else
-{
-	include_once 'search.php';
+	case 'contact': include_once 'page_contact.php'; break;
+	case 'company': include_once 'page_company.php'; break;
+	case 'attribute': include_once 'page_attribute.php'; break;
+	default: include_once 'search.php'; break;
 }
 ?>
