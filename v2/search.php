@@ -153,7 +153,8 @@ while ( $aRow = mysqli_fetch_array( $rResult ) )
 
 // Attributs
 
-$aColumns = array('attribute_id', 'attribute', 'for_contact', 'for_company');
+$aColumns = array('attribute_id', 'attribute');
+$sColumns = array('attribute');
 $sIndexColumn = "attribute_id";
 $sTable = $DB_TABLE_PREFIX."prm_attribute";
 $sLimit = "LIMIT 5";
@@ -162,9 +163,9 @@ $sWhere = "";
 if ($searchString != "" )
 {
 	$sWhere = "WHERE (";
-	for ( $i=0 ; $i<count($aColumns) ; $i++ )
+	for ( $i=0 ; $i<count($sColumns) ; $i++ )
 	{
-		$sWhere .= $aColumns[$i]." LIKE '%".String2StringForSprintfQueryBuilder($searchString)."%' OR ";
+		$sWhere .= $sColumns[$i]." LIKE '%".String2StringForSprintfQueryBuilder($searchString)."%' OR ";
 	}
 	$sWhere = substr_replace( $sWhere, "", -3 );
 	$sWhere .= ')';
@@ -184,7 +185,7 @@ $rResult = ExecuteQuery_toremove($sQuery);
 
 $attributes = array();
 $type = 'attribute';
-while ( $aRow = mysqli_fetch_array( $rResult ) )
+while ( ($aRow = mysqli_fetch_array( $rResult )) != NULL )
 {
 	$row = array();
 	$id = -1;
@@ -197,32 +198,27 @@ while ( $aRow = mysqli_fetch_array( $rResult ) )
 			$fullName .= $aRow[ $aColumns[$i] ];
 	}
 	$row['id'] = $id;
-	$row['fullName'] = $fullName.", Attribut";
-	$row['type'] = $type;
+
 	$attributes[]= $row;
 }
 
 ?>
 
-<ul class="list-group" id="contact-list">
-<?php
 
-for ($i=0 ; $i < count($attributes) && $i < 10 ; $i++ )
+<div class="row">
+<?php
+for ($i=0 ; $i < count($attributes) ; $i++ )
 {
 	$row = GetAttributeRow($attributes[$i]['id']);
 ?>
-<li class="list-group-item">
-    <div class="col-xs-8">
-        <span class="name"><?= $row['attribute'] ?></span>
-        <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_ATTRIBUTE, <?= $attributes[$i]['id'] ?>);">Modifier</button>
-	</div>
-    <div class="clearfix"></div>
-</li>
+<div class="panel col-lg-2">
+	<span class="name"><?= $row['attribute'] ?></span>
+	<button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_ATTRIBUTE, <?= $attributes[$i]['id'] ?>);">Modifier</button>
+</div>
 <?php
 }
-
 ?>
-</ul>
+</div>
 
 <ul class="list-group" id="contact-list">
 <?php

@@ -98,7 +98,7 @@ include_once '../dal/dal_prm.php';
 <script>
 $("#searchArea").focus(function() { this.select(); });
 
-$("#searchArea").keypress(function() {
+$("#searchArea").keyup(function(e) {
 	var search = $("#searchArea").val();
 	console.log(search);
 	//$("#searchResult").html(search);
