@@ -16,11 +16,15 @@ if (isset($_POST['page']))
 
 */
 $row = GetContactRow($id);
-?>
-<?php
 
-AddGroup('contact_comment', 'Commentaires');
+
+
+
+
 AddGroup('contact_identity', 'Identité');
+AddGroup('contact_comment', 'Commentaires');
+
+
 AddGroup('contact_personal', 'Personnel');
 AddGroup('contact_professional', 'Professionnel');
 AddGroup('contact_followup', 'Suivi');
@@ -36,7 +40,7 @@ function AddTextBox($row, $fieldName, $label, $placeHolder)
 	{
 ?>
 <div class="form-group">
-	<input type="text" class="form-control small" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
+	<input type="text" class="form-control small" name="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
 </div>
 <?php
 	}
@@ -45,7 +49,7 @@ function AddTextBox($row, $fieldName, $label, $placeHolder)
 ?>
 <div class="form-group">
 	<label for="<?= $fieldName ?>"><?= $label ?></label>
-	<input type="text" class="form-control small" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
+	<input type="text" class="form-control small" name="<?= $fieldName ?>" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
 </div>
 <?php
 	}
@@ -55,11 +59,13 @@ function AddTextBox($row, $fieldName, $label, $placeHolder)
 
 <?php
 
+
+
+
 function AddGroup($divId, $title)
 {
 	global $row;
 	$titleId = $divId.'Title';
-
 ?>
 <div id="<?= $divId ?>">
 <h1 class="page-header" id="<?= $titleId ?>"><?= $title ?></h1>
@@ -68,22 +74,50 @@ function AddGroup($divId, $title)
 <?php
 }
 
-function BeginForm()
+
+
+
+
+function BeginForm($idForm)
 {
 	?>
-<form action="/signup" method="post">
+<form action="/" method="post" id="form<?= $idForm ?>">
 	<?php
 }
 
-function EndForm()
+function EndForm($idForm, $controller)
 {
 	?>
 <div class="pull-right">
-	<button type="button" class="btn btn-primary">Enregistrer</button>
-	<button type="button" id="identity<?= $int ?>Cancel" class="btn btn-default">Annuler</button>
+	<label id="form<?= $idForm ?>Result"></label>
+	<button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
+	<button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
 </div>
 </form>
+
+<script type="text/javascript" charset="utf-8">
+$("#form<?= $idForm ?>").submit(function () {
+	document.getElementById("submit<?= $idForm ?>").disabled = true;
+	$.post(
+      "<?= $controller ?>",
+      $(this).serialize(),
+      function(response, status){
+    	  document.getElementById("submit<?= $idForm ?>").disabled = false;
+          if (status == 'success')
+          {
+				$("#form<?= $idForm ?>Result").html(response);
+          }
+          else
+          {
+              $("#form<?= $idForm ?>Result").html(status);
+          }
+      }
+    );
+
+	return false;   
+});
+</script>
+
 <?php
 }
-
 ?>

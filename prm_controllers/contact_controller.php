@@ -26,7 +26,7 @@ if (isset($_GET["type"]))
 	}
 	else if ($_GET["type"] == "update")
 	{
-		UpdateContact($_POST["contact_id"], $_POST);
+		echo UpdateContact($_POST["contact_id"], $_POST);
 	}
 	else if ($_GET["type"] == "last_contact")
 	{

@@ -455,6 +455,11 @@ function UpdateContact($ContactId, $post)
 	}
 
 	include 'database_use_stop.php';
+
+	if ($something_has_changed)
+		return 'MODIFIED';
+	else
+		return 'UNMODIFIED';
 }
 
 function OBSOLETEUpdateContact($ContactId, $post)

@@ -36,9 +36,9 @@ function ManageHash() {
 	return true;
 }
 
-/*if (!ManageHash()) {
+if (!ManageHash()) {
 	UpdateUrl();
-}*/
+}
 
 function SetPage(page){
 	currentContext.page = page;
