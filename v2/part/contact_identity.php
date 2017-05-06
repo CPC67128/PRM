@@ -1,7 +1,5 @@
 <?php BeginForm('contact_identity'); ?>
 
-<input type="hidden" name="contact_id" value="<?= $row["contact_id"] ?>">
-
 <div class="form-group">
 	<label for="gender">Sexe</label>
     <select class="form-control" name="gender">
@@ -11,11 +9,9 @@
 </div>
 
 <?php
-
 AddTextBox($row, 'title', 'Titre', '');
 AddTextBox($row, 'first_name', 'Prénom', '');
 AddTextBox($row, 'last_name', 'Nom', '');
 
+EndForm('contact_identity', '../prm_controllers/contact_controller.php?type=update');
 ?>
-
-<?php EndForm('contact_identity', '../prm_controllers/contact_controller.php?type=update'); ?>

@@ -1,56 +1,16 @@
-<?php
-include 'form_management.php';
-begin_form();
-?>
-<table>
-<tr>
-<td>Date</td>
-<td><input type="text" name="set_date" value="<?php echo date("Y-m-d"); ?>" size=10 /></td>
-</tr>
-<tr>
-<td>Attribut</td>
-<td><input type="text" id="new_attribute" name="new_attribute" value="" size=50 /></td>
-</tr>
-</table>
-<input type="hidden" name="contact_id" value="<?php echo $row["contact_id"]; ?>">
-<?php end_form('Ajouter', '../prm_controllers/contact_controller.php?type=set_attribute', true); ?>
+<?php BeginForm('contact_attributes'); ?>
 
-<br />
+<div class="form-group">
+	<label for="set_date">Date</label>
+	<input type="text" class="form-control" id="set_date" name="set_date" value="<?php echo date("Y-m-d"); ?>" autocomplete="off" >
+</div>
 
-<table class="standardTable" id="attributes">
-<thead>
-<tr>
-<th>Attribut</th>
-<th>Date</th>
-<th></th>
-</tr>
-<tbody>
+<div class="form-group">
+	<label for="new_attribute">Attribut</label>
+	<input type="text" class="form-control" id="new_attribute" name="new_attribute" autocomplete="off" >
+</div>
 
-<?php
-$resultat = GetContactAttributes($row["contact_id"]);
-$n = $resultat->num_rows;
-for ($i = 0; $i < $n; $i++)
-{
-  $ligneAttribute = $resultat->fetch_assoc();
-  ?>
-
-  <tr>
-  <td>
-  <?php echo $ligneAttribute["attribute"]; ?>
-  </td>
-  <td>
-  <?php echo $ligneAttribute["creation_date"]; ?>
-  </td>
-  <td>
-  <span class="ui-icon ui-icon-trash" onclick="var confirmation = confirm('Supprimer ?'); if (confirmation) { dojo.xhrPost({url: '../prm_controllers/contact_controller.php?type=remove_attribute&contact_id=<?php echo $ligneAttribute["contact_id"]; ?>&contact_attribute_id=<?php echo $ligneAttribute["contact_attribute_id"]; ?>', load: function(data, ioArgs) { RefreshCenterPanel(); }}); }"></span>
-  </td>
-  </tr>
-  <?php
-}
-?>
-
-</tbody>
-</table>
+<?php EndForm('contact_attributes', '../prm_controllers/contact_controller.php?type=set_attribute', 'LoadContactAttributesDetail();'); ?>
 
 <script type="text/javascript">
 var availableTagsAttributes = [
@@ -74,4 +34,22 @@ $( "#new_attribute" ).autocomplete({
 $("#new_attribute").focus(function () {
 	$("#new_attribute").select();
 });
+</script>
+
+<div id="divContactAttributesDetail" />
+
+<script type="text/javascript" charset="utf-8">
+function LoadContactAttributesDetail() {
+	console.log("LoadContactAttributesDetail() called");
+
+	$.post("contact_attributes_detail.php",
+			{
+				id: <?= $row["contact_id"] ?>
+		    },
+		    function(data, status){
+		    	$("#divContactAttributesDetail").html(data);
+		    });
+}
+
+LoadContactAttributesDetail();
 </script>

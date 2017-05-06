@@ -1,7 +1,5 @@
 <?php BeginForm('contact_comment'); ?>
 
-<input type="hidden" name="contact_id" value="<?= $row["contact_id"] ?>">
-
 <div class="form-group">
 	<label for="comment">Commentaire</label>
 	<textarea class="form-control" name="comment" rows="5"><?= $row['comment'] ?></textarea>

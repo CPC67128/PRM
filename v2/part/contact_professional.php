@@ -1,7 +1,5 @@
-<?php BeginForm(); ?>
-
 <?php
-
+BeginForm('contact_professional');
 
 AddTextBox($row, 'company_name', 'Entreprise', '');
 AddTextBox($row, 'professional_service', 'Service', '');
@@ -20,6 +18,5 @@ AddTextBox($row, 'professional_twitter', 'Twitter', '');
 AddTextBox($row, 'professional_skype', 'Skype', '');
 AddTextBox($row, 'professional_login', 'Login', '');
 
+EndForm('contact_professional', '../prm_controllers/contact_controller.php?type=update');
 ?>
-
-<?php EndForm(); ?>

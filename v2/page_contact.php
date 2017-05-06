@@ -18,16 +18,14 @@ if (isset($_POST['page']))
 $row = GetContactRow($id);
 
 
-
-
-
 AddGroup('contact_identity', 'Identité');
-AddGroup('contact_comment', 'Commentaires');
-
-
 AddGroup('contact_personal', 'Personnel');
 AddGroup('contact_professional', 'Professionnel');
 AddGroup('contact_followup', 'Suivi');
+AddGroup('contact_comment', 'Commentaires');
+AddGroup('contact_attributes', 'Attributs');
+
+
 
 function AddTextBox($row, $fieldName, $label, $placeHolder)
 {
@@ -80,12 +78,16 @@ function AddGroup($divId, $title)
 
 function BeginForm($idForm)
 {
+	global $row;
 	?>
+<div id="div<?= $idForm ?>">
 <form action="/" method="post" id="form<?= $idForm ?>">
+<input type="hidden" name="contact_id" value="<?= $row["contact_id"] ?>">
+
 	<?php
 }
 
-function EndForm($idForm, $controller)
+function EndForm($idForm, $controller, $functionToCallOnSuccess = "")
 {
 	?>
 <div class="pull-right">
@@ -105,6 +107,10 @@ $("#form<?= $idForm ?>").submit(function () {
     	  document.getElementById("submit<?= $idForm ?>").disabled = false;
           if (status == 'success')
           {
+              <?php
+              if ($functionToCallOnSuccess != "")
+              	echo $functionToCallOnSuccess;
+              else ?>
 				$("#form<?= $idForm ?>Result").html(response);
           }
           else
@@ -117,6 +123,8 @@ $("#form<?= $idForm ?>").submit(function () {
 	return false;   
 });
 </script>
+
+</div>
 
 <?php
 }

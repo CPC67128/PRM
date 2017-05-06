@@ -1,7 +1,5 @@
-<?php BeginForm(); ?>
-
 <?php
-
+BeginForm('contact_personal');
 
 AddTextBox($row, 'personal_address_1', 'Adresse', '');
 AddTextBox($row, 'personal_address_2', '', '');
@@ -24,6 +22,5 @@ AddTextBox($row, 'personal_birthplace', '', 'Lieu de naissance');
 AddTextBox($row, 'vehicle_model', 'Véhicule', 'Modèle véhicule');
 AddTextBox($row, 'vehicle_license_plate', '', 'Plaque d\'immatriculation');
 
+EndForm('contact_personal', '../prm_controllers/contact_controller.php?type=update');
 ?>
-
-<?php EndForm(); ?>
