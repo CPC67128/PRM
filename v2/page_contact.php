@@ -18,6 +18,7 @@ if (isset($_POST['page']))
 $row = GetContactRow($id);
 
 
+AddGroup('contact_files', 'Fichiers');
 AddGroup('contact_identity', 'Identité');
 AddGroup('contact_personal', 'Personnel');
 AddGroup('contact_professional', 'Professionnel');
