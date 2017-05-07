@@ -3,7 +3,7 @@ include_once '../dal/dal_prm.php';
 
 function DownloadFile($File_name, $Original_file_name)
 {
-	$path = '../prm_uploads/'.$File_name;
+	$path = '../uploads/'.$File_name;
 
 	if (file_exists($path) && strpos($File_name, '/') === FALSE && strpos($File_name, '.') !== 0)
 	{

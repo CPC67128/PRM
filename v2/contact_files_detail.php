@@ -26,7 +26,7 @@ for ($i = 0; $i < $n; $i++)
 		if ($row["picture_file_id"] != $rowFile["file_id"])
 		{
 ?>
-	<button data-dojo-type="dijit.form.Button" onclick="dojo.xhrPost({url: '../prm_controllers/contact_controller.php?type=set_picture_file&contact_id=<?php echo $row["contact_id"]; ?>&file_id=<?php echo $rowFile["file_id"]; ?>', load: function(data, ioArgs) { RefreshLeftPanel(); RefreshCenterPanel(); }});">Définir comme portrait</button>
+	<button data-dojo-type="dijit.form.Button" onclick="SetContactPictureFile(<?= $row["contact_id"] ?>, <?= $rowFile["file_id"] ?>);">Définir comme portrait</button>
 <?php
 		}
 	}
@@ -46,6 +46,18 @@ function DeleteContactFile(fileId) {
 	var confirmation = confirm('Confirmer ?');
 	if (confirmation) {
 		$.post('../prm_controllers/file_controller.php?type=remove_file&file_id='+fileId,
+			{ },
+			function(data, status){
+				LoadContactFilesDetail();
+			});
+	}
+}
+
+function SetContactPictureFile(contactId, fileId) {
+	console.log("SetContactPictureFile() called");
+	var confirmation = confirm('Confirmer ?');
+	if (confirmation) {
+		$.post('../prm_controllers/contact_controller.php?type=set_picture_file&contact_id='+contactId+'&file_id='+fileId,
 			{ },
 			function(data, status){
 				LoadContactFilesDetail();
