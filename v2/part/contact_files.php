@@ -2,20 +2,26 @@
 
 <form id="formContactFiles" action="../prm_controllers/file_controller.php?type=add_file_to_contact&contact_id=<?= $row["contact_id"] ?>" method="post" enctype="multipart/form-data">
 
-<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+<style type="text/css">
+    .custom-file-control.selected:lang(en)::after {
+  content: "" !important;
+}
+    </style>
 
+<div class="form-group">
 <label class="custom-file">
   <input type="file" name="filePicture" id="filePicture" class="custom-file-input">
-  <span class="custom-file-control"></span>
+  <span class="custom-file-control form-control-file"></span>
 </label>
-<br/>
+
+</div>
 
 <label id="formContactFilesResult"></label>
 <button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
 <button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
-TODO (fonctionnait en Bootstrap 3)
 </form>
 </div>
+
 
 <script type="text/javascript" charset="utf-8">
 $("#formContactFiles").submit(function () {
@@ -40,6 +46,11 @@ $("#formContactFiles").submit(function () {
 
 	return false;   
 });
+
+$('.custom-file-input').on('change',function(){
+    var fileName = $(this).val();
+    $(this).next('.form-control-file').addClass("selected").html(fileName);
+})
 </script>
 
 <br />

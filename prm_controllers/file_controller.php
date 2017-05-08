@@ -11,7 +11,7 @@ if (isset($_GET["type"]))
 	{
 		$ligne = GetContactRow($_GET["contact_id"]);
 
-		$target_path = "../prm_uploads/";
+		$target_path = "../uploads/";
 		$extension = substr($_FILES['filePicture']['name'], strrpos($_FILES['filePicture']['name'], '.') +1);
 		$file_name = $ligne["first_name"].' '.$ligne["last_name"].', '.$_GET["contact_id"].', '.date('Y-m-d-H-i-s').'.'.$extension;
 		$target_path = $target_path.$file_name;
@@ -33,7 +33,7 @@ if (isset($_GET["type"]))
 	{
 		$ligne = GetCompanyRow($_GET["company_id"]);
 	
-		$target_path = "../prm_uploads/";
+		$target_path = "../uploads/";
 		$extension = substr($_FILES['filePicture']['name'], strrpos($_FILES['filePicture']['name'], '.') +1);
 		$file_name = $ligne["name"].', '.$_GET["company_id"].', '.date('Y-m-d-H-i-s').'.'.$extension;
 		$target_path = $target_path.$file_name;
