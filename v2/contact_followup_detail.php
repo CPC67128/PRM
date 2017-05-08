@@ -9,7 +9,7 @@ $row = GetContactRow($id);
 
 ?>
 
-<table class="table " id="notes">
+<table class="table" id="notes">
 <thead>
 <tr>
 <th>Date</th>

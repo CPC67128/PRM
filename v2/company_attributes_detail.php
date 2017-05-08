@@ -5,7 +5,7 @@ $id = -1;
 if (isset($_POST['id']))
 	$id = $_POST['id'];
 
-$row = GetContactRow($id);
+$row = GetCompanyRow($id);
 
 ?>
 
@@ -19,7 +19,7 @@ $row = GetContactRow($id);
 <tbody>
 
 <?php
-$resultat = GetContactAttributes($row["contact_id"]);
+$resultat = GetCompanyAttributes($row["company_id"]);
 $n = $resultat->num_rows;
 for ($i = 0; $i < $n; $i++)
 {
@@ -34,7 +34,7 @@ for ($i = 0; $i < $n; $i++)
   <?php echo $ligneAttribute["creation_date"]; ?>
   </td>
   <td>
-  <span class="glyphicon glyphicon-trash" onclick="DeleteContactAttribute(<?= $ligneAttribute["contact_id"] ?>, <?= $ligneAttribute["contact_attribute_id"] ?>);"></span>
+  <span class="glyphicon glyphicon-trash" onclick="DeleteCompanyAttribute(<?= $ligneAttribute["company_id"] ?>, <?= $ligneAttribute["company_attribute_id"] ?>);"></span>
   </td>
   </tr>
   <?php
@@ -45,15 +45,15 @@ for ($i = 0; $i < $n; $i++)
 </table>
 
 <script type="text/javascript" charset="utf-8">
-function DeleteContactAttribute(contactId, attributeId) {
-	console.log("DeleteContactAttribute() called");
+function DeleteCompanyAttribute(companyId, attributeId) {
+	console.log("DeleteCompanyAttribute() called");
 
 	var confirmation = confirm('Confirmer ?');
 	if (confirmation) {
-		$.post('../prm_controllers/contact_controller.php?type=remove_attribute&contact_id='+contactId+'&contact_attribute_id='+attributeId,
+		$.post('../prm_controllers/company_controller.php?type=remove_attribute&company_id='+companyId+'&company_attribute_id='+attributeId,
 			{ },
 			function(data, status){
-				LoadContactAttributesDetail();
+				LoadCompanyAttributesDetail();
 			});
 	}
 }
