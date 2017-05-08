@@ -55,7 +55,6 @@ function GetContextStringRepresentationForCall() {
 
 function Refresh() {
 	console.log("Refresh() called: " + currentContext.type + "/" + currentContext.id + "/" + currentContext.page);
-
 	$.post("page.php",
 		    {
 				type: currentContext.type,
@@ -123,6 +122,7 @@ function setFavicon() {
 	  $('<link href="' + link + '" rel="shortcut icon" type="image/ico" />').appendTo('head');
 }
 
+
 $(window).bind('hashchange', function() {
 	console.log("hashchange detected");
 	if (ManageHash())
@@ -140,6 +140,6 @@ function SetTitle(title) {
 	document.title = currentTitle;
 }
 
-$(function() {
+$(document).ready(function(){
 	Refresh();
 });

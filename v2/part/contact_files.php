@@ -9,10 +9,11 @@
   <span class="custom-file-control"></span>
 </label>
 <br/>
+
 <label id="formContactFilesResult"></label>
 <button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
 <button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
-
+TODO (fonctionnait en Bootstrap 3)
 </form>
 </div>
 
