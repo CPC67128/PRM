@@ -177,8 +177,6 @@ include 'dal_prm_attribute.php';
 include 'dal_prm_file.php';
 include 'dal_prm_data_management_tools.php';
 
-include '../i18n/translator.php';
-
 function ExecuteQuery_toremove($query)
 {
 	include 'database_use_start.php';
