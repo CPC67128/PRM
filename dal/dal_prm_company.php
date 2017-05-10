@@ -410,4 +410,71 @@ function company_GetCompanyPictureFileId($Company_id)
 	return '';
 }
 
+function SearchCompanies($searchString)
+{
+	global $DB_TABLE_PREFIX;
+	$aColumns = array('company_id', 'name');
+	$sIndexColumn = "company_id";
+	$sTable = $DB_TABLE_PREFIX."prm_company";
+	$sLimit = "LIMIT 5";
+	
+	$sWhere = "";
+	if ($searchString != "" )
+	{
+		$sWhere = "WHERE (";
+		for ( $i=0 ; $i<count($aColumns) ; $i++ )
+		{
+			$sWhere .= $aColumns[$i]." LIKE '%".String2StringForSprintfQueryBuilder($searchString)."%' OR ";
+		}
+		$sWhere = substr_replace( $sWhere, "", -3 );
+		$sWhere .= ')';
+	}
+	
+	$requete_cnf = "select view_archived from ".$DB_TABLE_PREFIX."prm_configuration";
+	$resultat_cnf = ExecuteQuery_toremove($requete_cnf);
+	$ligne_cnf = mysqli_fetch_assoc($resultat_cnf);
+	if (!$ligne_cnf["view_archived"])
+	{
+		if ( $sWhere == "" )
+		{
+			$sWhere = "WHERE ";
+		}
+		else
+		{
+			$sWhere .= " AND ";
+		}
+		$sWhere .= 'ifnull(archived, 0) != 1';
+	}
+	
+	$sQuery = "
+	SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
+		FROM   $sTable
+		$sWhere
+		$sLimit
+		";
+	$rResult = ExecuteQuery_toremove($sQuery);
+	
+	$companies = array();
+	while ( $aRow = mysqli_fetch_array( $rResult ) )
+	{
+		$row = array();
+		$id = -1;
+		$fullName = "";
+		$type = "company";
+		for ( $i=0 ; $i<count($aColumns) ; $i++ )
+		{
+			if ( $aColumns[$i] == "company_id" )
+				$id = $aRow[ $aColumns[$i] ];
+			elseif ( $aColumns[$i] == "name" )
+			$fullName .= $aRow[ $aColumns[$i] ];
+		}
+		$row['id'] = $id;
+		$row['type'] = $type;
+		$row['fullName'] = $fullName.", Entreprise";
+		$companies[]= $row;
+	}
+
+	return $companies;
+}
+
 ?>

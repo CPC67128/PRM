@@ -185,4 +185,59 @@ function GetAttributeShortDescription($AttributeId)
 	return $shortDescriptionString;
 }
 
+function SearchAttributes($searchString)
+{
+	global $DB_TABLE_PREFIX;
+	$aColumns = array('attribute_id', 'attribute');
+	$sColumns = array('attribute');
+	$sIndexColumn = "attribute_id";
+	$sTable = $DB_TABLE_PREFIX."prm_attribute";
+	$sLimit = "LIMIT 5";
+	
+	$sWhere = "";
+	if ($searchString != "" )
+	{
+		$sWhere = "WHERE (";
+		for ( $i=0 ; $i<count($sColumns) ; $i++ )
+		{
+			$sWhere .= $sColumns[$i]." LIKE '%".String2StringForSprintfQueryBuilder($searchString)."%' OR ";
+		}
+		$sWhere = substr_replace( $sWhere, "", -3 );
+		$sWhere .= ')';
+	}
+	
+	/*
+	 * SQL queries
+	 * Get data to display
+	 */
+	$sQuery = "
+	SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
+		FROM   $sTable
+		$sWhere
+		$sLimit
+		";
+	$rResult = ExecuteQuery_toremove($sQuery);
+	
+	$attributes = array();
+	$type = 'attribute';
+	while ( ($aRow = mysqli_fetch_array( $rResult )) != NULL )
+	{
+		$row = array();
+		$id = -1;
+		$fullName = "";
+		for ( $i=0 ; $i<count($aColumns) ; $i++ )
+		{
+			if ( $aColumns[$i] == "attribute_id" )
+				$id = $aRow[ $aColumns[$i] ];
+			elseif ( $aColumns[$i] == "attribute" )
+			$fullName .= $aRow[ $aColumns[$i] ];
+		}
+		$row['id'] = $id;
+	
+		$attributes[]= $row;
+	}
+	
+	return $attributes;
+}
+
 ?>

@@ -30,5 +30,3 @@ if(!empty($_GET['file_id']))
 	else
 		DownloadFile($file_name, file_GetOrginalFileName($_GET['file_id']));
 }
-else
-	require('download_unexisting_file.php');

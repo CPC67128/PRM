@@ -15,10 +15,10 @@ if (isset($_POST['page']))
 
 switch ($type)
 {
-	case 'contact': include_once 'page_contact.php'; break;
-	case 'company': include_once 'page_company.php'; break;
-	case 'attribute': include_once 'page_attribute.php'; break;
-	default: include_once 'search.php'; break;
+	case 'contact': include_once 'contact.php'; break;
+	case 'company': include_once 'company.php'; break;
+	case 'attribute': include_once 'attribute.php'; break;
+	default: include_once 'home.php'; break;
 }
 
 

@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../images/handshake.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>PRM</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../3rd_party_bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
 
-<link rel="stylesheet" href="../3rd_party_font-awesome/css/font-awesome.min.css">    
+	<link rel="stylesheet" href="../3rd_party_font-awesome/css/font-awesome.min.css">    
     
-        <!-- Bootstrap core JavaScript
+    <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="../3rd_party_jquery/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous" />
@@ -51,30 +51,29 @@
             <a class="nav-link" href="#">+ Attribut</a>
           </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <form class="form-inline mt-2 mt-md-0" id="formSearch">
+          <input class="form-control mr-sm-2" id="searchText" type="text" placeholder="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </div>
     </nav>
 
-<script>
-$("#searchArea").focus(function() { this.select(); });
+<script type="text/javascript" charset="utf-8">
+$("#formSearch").submit(function () {
+	var search = $("#searchText").val();
+	console.log("Search submited for "+search);
 
-$("#searchArea").keyup(function(e) {
-	var search = $("#searchArea").val();
-	console.log(search);
-	//$("#searchResult").html(search);
+	$.post(
+		"search.php",
+	    {
+			search_string: search
+	    },
+		function(response, status) {
+	    	$("#searchResult").html(response);
+	    });
 
-	$.post("search.php",
-		    {
-				search_string: search
-		    },
-		    function(data, status){
-		    	$("#searchResult").html("Data: " + data + "\nStatus: " + status);
-		    });
+	return false;   
 });
-
 </script>
 
 <div id="searchResult" class="container" />
