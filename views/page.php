@@ -13,12 +13,25 @@ $page = '';
 if (isset($_POST['page']))
 	$page = $_POST['page'];
 
-switch ($type)
+if ($id == -1)
 {
-	case 'contact': include_once 'contact.php'; break;
-	case 'company': include_once 'company.php'; break;
-	case 'attribute': include_once 'attribute.php'; break;
-	default: include_once 'home.php'; break;
+	switch ($type)
+	{
+		case 'contact': include_once 'contact_creation.php'; break;
+		case 'company': include_once 'company_creation.php'; break;
+		case 'attribute': include_once 'attribute_creation.php'; break;
+		default: include_once 'home.php'; break;
+	}
+}
+else
+{
+	switch ($type)
+	{
+		case 'contact': include_once 'contact.php'; break;
+		case 'company': include_once 'company.php'; break;
+		case 'attribute': include_once 'attribute.php'; break;
+		default: include_once 'home.php'; break;
+	}
 }
 
 
@@ -127,4 +140,47 @@ $("#form<?= $idForm ?>").submit(function () {
 
 <?php
 }
+
+function SpecialEndForm($idForm, $controller, $functionToCallOnSuccess = "")
+{
+	?>
+<div class="pull-right">
+	<label id="form<?= $idForm ?>Result"></label>
+	<button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
+	<button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
+</div>
+</form>
+
+<script type="text/javascript" charset="utf-8">
+$("#form<?= $idForm ?>").submit(function () {
+	document.getElementById("submit<?= $idForm ?>").disabled = true;
+	$.post(
+      "<?= $controller ?>",
+      $(this).serialize(),
+      function(response, status){
+    	  document.getElementById("submit<?= $idForm ?>").disabled = false;
+          if (status == 'success')
+          {
+              <?php
+              if ($functionToCallOnSuccess != "")
+              	echo $functionToCallOnSuccess;
+              else ?>
+				$("#form<?= $idForm ?>Result").html(response);
+          }
+          else
+          {
+              $("#form<?= $idForm ?>Result").html(status);
+          }
+      }
+    );
+
+	return false;   
+});
+</script>
+
+</div>
+
+<?php
+}
+
 ?>

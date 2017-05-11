@@ -5,7 +5,7 @@ var TYPE_ATTRIBUTE = "attribute";
 var TYPE_CONFIGURATION = "configuration";
 var TYPE_TOOLS = "tools";
 
-var PAGE_UNDEFINED = '';
+var PAGE_UNDEFINED = '-1';
 
 var ID_UNDEFINED = -1
 
@@ -18,10 +18,10 @@ function Context(type, id, page) {
 var currentContext = new Context(TYPE_UNDEFINED, ID_UNDEFINED, PAGE_UNDEFINED);
 
 function ManageHash() {
-	console.log("ManageHash() called");
 	var hash = document.location.hash.replace("#", "");
-	console.log("ManageHash() called" + hash);
+	console.log("ManageHash() hash = " + hash);
 	var hashSplit = hash.split("/");
+	console.log("ManageHash() hashSplit.length = " + hashSplit.length);
 
 	if (hashSplit.length == 3) {
 		currentContext.type = hashSplit[0];
@@ -37,16 +37,19 @@ function ManageHash() {
 }
 
 if (!ManageHash()) {
+	console.log("UpdateUrl call from flow");
 	UpdateUrl();
 }
 
 function SetPage(page){
+	console.log("setpage");
 	currentContext.page = page;
 	RefreshCenterPanel();
 	UpdateUrl();
 }
 
 function GetContextStringRepresentationForCall() {
+	console.log('GetContextStringRepresentationForCall');
 	stringRepresentation = '?type=' + currentContext.type;
 	stringRepresentation += '&id=' + currentContext.id;
 	stringRepresentation += '&page=' + currentContext.page;
@@ -64,11 +67,11 @@ function Refresh() {
 		    function(data, status){
 		    	$("#searchResult").html(data);
 		    });
-
 	UpdateUrl();
 }
 
 function CreateRecord($type) {
+	console.log("CreateRecord(" + $type + ")");
 	currentContext.type = $type;
 	currentContext.id = -1;
 	currentContext.page = PAGE_UNDEFINED;
@@ -77,7 +80,7 @@ function CreateRecord($type) {
 }
 
 function DisplayRecord($type, $id) {
-	console.log("DisplayRecord(" + $type + ", " + $id + ") called");
+	console.log("DisplayRecord(" + $type + ", " + $id + ")");
 	currentContext.type = $type;
 	currentContext.id = $id;
 	currentContext.page = PAGE_UNDEFINED;
@@ -94,52 +97,40 @@ function Reset() {
 	Refresh();
 }
 
-function NotImplemented() {
-	alert('not implemented yet...');
-}
-
-function ExtendLeftPanel() {
-	//dojo.style('leftPanel', "width", "500px");
-	//dojo.byId('leftPanel').resize();
-}
-
 function UpdateUrl() {
-	console.log("UpdateUrl()");
+	console.log("UpdateUrl() "+currentContext.type+"/"+currentContext.id+"/"+currentContext.page);
 
 	var hash = currentContext.type;
 	hash += "/" + currentContext.id;
 	hash += "/" + currentContext.page;
 
-	console.log(hash);
-
-	document.location.hash = hash;
+	console.log("UpdateUrl() window.location.hash = "+hash);
+	location.hash = hash;
 
 	setFavicon(); // Bug firefox: favicon disappears http://kilianvalkhof.com/2010/javascript/the-case-of-the-disappearing-favicon/
 }
 
 function setFavicon() {
+	console.log("setFavicon()");
 	  var link = $('link[type="image/ico"]').remove().attr("href");
 	  $('<link href="' + link + '" rel="shortcut icon" type="image/ico" />').appendTo('head');
 }
 
-
 $(window).bind('hashchange', function() {
-	console.log("hashchange detected");
+	if (location.hash == '')
+	{
+		console.log("Hashchange detected: NO HASH");
+		return;
+	}
+
+	console.log("Hashchange detected: "+location.hash);
 	if (ManageHash())
 	{
 		Refresh();
 	}
 });
 
-function SetTitle(title) {
-	var currentTitle = 'Gestionnaire de relations personnelles ou privées';
-	if (title != '') {
-		currentTitle = title + ' - Gestionnaire de relations personnelles ou privées';
-	}
-
-	document.title = currentTitle;
-}
-
 $(document).ready(function(){
+	console.log("$(document).ready(function()");
 	Refresh();
 });

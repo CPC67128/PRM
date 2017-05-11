@@ -615,7 +615,7 @@ function CreateContact($post)
 		FormatStringForSqlQuery($post["last_name"]));
 	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
 
-	$newId = mysql_insert_id();
+	$newId = $mysqli->insert_id;
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (contact_id, comment, creation_date) values (%s, '%s', now())",
 		$newId,
