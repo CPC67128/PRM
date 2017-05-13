@@ -34,8 +34,8 @@ else
 	}
 }
 
-
-function AddTextBox($row, $fieldName, $label, $placeHolder)
+// ----- AddTextBox -----
+function AddTextBox($row, $fieldName, $label, $placeHolder, $type='text')
 {
 	$value = $row[$fieldName];
 
@@ -45,19 +45,19 @@ function AddTextBox($row, $fieldName, $label, $placeHolder)
 	if (strlen($label) == 0)
 	{
 		?>
-<div class="form-group">
-	<input type="text" class="form-control small" name="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
-</div>
-<?php
+		<div class="form-group row">
+			<input type="<?= $text ?>" class="form-control" name="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
+		</div>
+		<?php
 	}
 	else
 	{
-?>
-<div class="form-group">
-	<label for="<?= $fieldName ?>"><?= $label ?></label>
-	<input type="text" class="form-control small" name="<?= $fieldName ?>" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
-</div>
-<?php
+		?>
+		<div class="form-group row">
+			<label for="<?= $fieldName ?>" class="col-form-label"><?= $label ?></label>
+			<input type="<?= $type ?>" class="form-control" name="<?= $fieldName ?>" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
+		</div>
+		<?php
 	}
 }
 ?>
@@ -102,10 +102,12 @@ function BeginForm($idForm)
 function EndForm($idForm, $controller, $functionToCallOnSuccess = "")
 {
 	?>
-<div class="pull-right">
+<div class="form-group row">
+	<div class="float-right">
 	<label id="form<?= $idForm ?>Result"></label>
 	<button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
 	<button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
+	</div>
 </div>
 </form>
 

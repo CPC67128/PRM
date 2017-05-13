@@ -25,7 +25,7 @@
     <script src="../3rd_party_bootstrap/js/bootstrap.min.js"></script>
 
     <script src="index.js"></script>
-    
+    <script src="../3rd_party_typeahead/typeahead.bundle.min.js" />
     
   </head>
 
