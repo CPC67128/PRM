@@ -44,7 +44,7 @@ function invalidate_emails($post)
 				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
-			mysql_free_result($resultat);
+			mysqli_free_result($resultat);
 	
 			if ($contact_id >= 0)
 			{

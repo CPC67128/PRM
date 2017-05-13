@@ -52,7 +52,10 @@
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="DisplayRecord(TYPE_ATTRIBUTE, -1); event.preventDefault();">+ Attribut</a>
           </li>
-        </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="DisplayRecord(TYPE_TOOLS, -1); event.preventDefault();">Outils</a>
+          </li>
+                  </ul>
         <form class="form-inline mt-2 mt-md-0" id="formSearch">
           <input class="form-control mr-sm-2" id="searchText" type="text" placeholder="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

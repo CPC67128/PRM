@@ -7,7 +7,7 @@ var TYPE_TOOLS = "tools";
 
 var PAGE_UNDEFINED = '-1';
 
-var ID_UNDEFINED = -1
+var ID_UNDEFINED = -1;
 
 function Context(type, id, page) {
 	this.type = type;

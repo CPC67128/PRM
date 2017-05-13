@@ -20,6 +20,7 @@ if ($id == -1)
 		case 'contact': include_once 'contact_creation.php'; break;
 		case 'company': include_once 'company_creation.php'; break;
 		case 'attribute': include_once 'attribute_creation.php'; break;
+		case 'tools': include_once 'tools.php'; break;
 		default: include_once 'home.php'; break;
 	}
 }
@@ -30,6 +31,7 @@ else
 		case 'contact': include_once 'contact.php'; break;
 		case 'company': include_once 'company.php'; break;
 		case 'attribute': include_once 'attribute.php'; break;
+		case 'tools': include_once 'tools.php'; break;
 		default: include_once 'home.php'; break;
 	}
 }
@@ -99,7 +101,7 @@ function BeginForm($idForm)
 	}
 }
 
-function EndForm($idForm, $controller, $functionToCallOnSuccess = "")
+function EndForm($idForm, $controller, $functionToCallOnSuccess = "", $submitButtonText="")
 {
 	?>
 <div class="form-group row">

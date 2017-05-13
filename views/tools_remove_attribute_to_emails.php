@@ -1,5 +1,5 @@
 <?php
-include 'form_management.php';
+include '../views_old_to_review/center_panels/form_management.php';
 begin_form();
 ?>
 1 email per line<br />

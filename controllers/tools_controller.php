@@ -18,7 +18,7 @@ if (isset($_GET["type"]))
 	else if ($_GET["type"] == "invalidate_emails")
 	{
 		$result = invalidate_emails($_POST);
-		echo 'Traitement terminé !<br/><br />';
+		echo 'Traitement terminé ! ';
 		echo $result;
 	}
 	else if ($_GET["type"] == "set_attribute_to_emails")
