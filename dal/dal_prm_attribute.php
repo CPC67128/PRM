@@ -55,8 +55,8 @@ function UpdateAttribute($AttributeId, $post)
 
 	include 'database_use_start.php';
 
-	$query = "select * from '.$DB_TABLE_PREFIX.'prm_attribute where attribute_id = ".$AttributeId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$query = "select * from ".$DB_TABLE_PREFIX."prm_attribute where attribute_id = ".$AttributeId;
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	$row = $result->fetch_assoc();
 
@@ -119,9 +119,15 @@ function UpdateAttribute($AttributeId, $post)
 	{
 		$update_query = 'update '.$DB_TABLE_PREFIX.'prm_attribute set '.$update_query.' where attribute_id = '.$AttributeId;
 		$mysqli->query($update_query);
-		
-		$mysqli->query($delete_query);
+
+		if (strlen($delete_query) > 0)
+			$mysqli->query($delete_query);
 	}
+
+	if ($something_has_changed)
+		return 'MODIFIED';
+	else
+		return 'UNMODIFIED';
 }
 
 // Delete update
@@ -157,7 +163,8 @@ function CreateAttribute($post)
 		(isset($post["for_company"]) && $post["for_company"] == 'on' ? '1' : '0'),
 		(isset($post["for_contact"]) && $post["for_contact"] == 'on' ? '1' : '0'));
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-	$newId = mysql_insert_id();
+
+	$newId = $mysqli->insert_id;
 
 	include 'database_use_stop.php';
 

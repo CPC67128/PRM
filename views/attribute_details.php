@@ -7,16 +7,16 @@
 
 <div class="form-check">
   <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" value="" name="for_company" <?php echo (strcasecmp($row["for_company"], '1') == 0 ? 'checked' : ''); ?>>
+    <input class="form-check-input" type="checkbox" name="for_company" <?= $row["for_company"] == 1 ? 'checked' : '' ?>>
     Attribut entreprise
   </label>
 </div>
 
 <div class="form-check">
   <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" value="" name="for_contact" <?php echo (strcasecmp($row["for_contact"], '1') == 0 ? 'checked' : ''); ?>>
+    <input class="form-check-input" type="checkbox" name="for_contact" <?= $row["for_contact"] == 1 ? 'checked' : '' ?>>
     Attribut contact
   </label>
 </div>
 
-<?php EndForm('attribute_details', '../prm_controllers/attribute_controller.php?type=update'); ?>
+<?php EndForm('attribute_details', '../controllers/attribute_controller.php?type=update'); ?>

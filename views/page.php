@@ -95,7 +95,7 @@ function BeginForm($idForm)
 	{
 		case 'contact': ?> <input type="hidden" name="contact_id" value="<?= $row["contact_id"] ?>"> <?php break;
 		case 'company': ?> <input type="hidden" name="company_id" value="<?= $row["company_id"] ?>"> <?php break;
-		case 'attribute': ?> <input type="hidden" name="contact_id" value="<?= $row["contact_id"] ?>"> <?php break;
+		case 'attribute': ?> <input type="hidden" name="attribute_id" value="<?= $row["attribute_id"] ?>"> <?php break;
 	}
 }
 
@@ -104,15 +104,16 @@ function EndForm($idForm, $controller, $functionToCallOnSuccess = "")
 	?>
 <div class="form-group row">
 	<div class="float-right">
-	<label id="form<?= $idForm ?>Result"></label>
 	<button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
 	<button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
+	<label id="form<?= $idForm ?>Result"></label>
 	</div>
 </div>
 </form>
 
 <script type="text/javascript" charset="utf-8">
 $("#form<?= $idForm ?>").submit(function () {
+	console.log("submit on #form<?= $idForm ?>");
 	document.getElementById("submit<?= $idForm ?>").disabled = true;
 	$.post(
       "<?= $controller ?>",

@@ -1,11 +1,16 @@
 <?php BeginForm('contact_identity'); ?>
 
-<div class="form-group">
-	<label for="gender">Sexe</label>
-    <select class="form-control" name="gender">
-      <option <?php echo (strcasecmp($row["gender"], 'M') == 0 ? 'selected' : ''); ?>>M</option>
-      <option <?php echo (strcasecmp($row["gender"], 'F') == 0 ? 'selected' : ''); ?>>F</option>
-    </select>
+<div class="form-group row">
+	<div class="form-check form-check-inline">
+	  <label class="form-check-label">
+	    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="M" <?php echo (strcasecmp($row["gender"], 'M') == 0 ? 'checked' : ''); ?>>Homme
+	  </label>
+	</div>
+	<div class="form-check form-check-inline">
+	  <label class="form-check-label">
+	    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="F" <?php echo (strcasecmp($row["gender"], 'F') == 0 ? 'checked' : ''); ?>>Femme
+	  </label>
+	</div>
 </div>
 
 <?php

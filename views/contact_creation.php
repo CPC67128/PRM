@@ -1,10 +1,17 @@
 <?php BeginForm('contact_creation'); ?>
 
-Sexe
-<select class="custom-select" name="gender">
-  <option selected value="M">M</option>
-  <option value="F">F</option>
-</select>
+<div class="form-group row">
+	<div class="form-check form-check-inline">
+	  <label class="form-check-label">
+	    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="M" checked>Homme
+	  </label>
+	</div>
+	<div class="form-check form-check-inline">
+	  <label class="form-check-label">
+	    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="F">Femme
+	  </label>
+	</div>
+</div>
 
 <?php
 AddTextBox($row, 'first_name', 'Prénom', '');

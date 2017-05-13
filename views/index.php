@@ -10,6 +10,8 @@
 
     <title>PRM</title>
 
+    <link rel="stylesheet" href="../3rd_party_jqueryui/jquery-ui.min.css">
+
     <!-- Bootstrap core CSS -->
     <link href="../3rd_party_bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -21,17 +23,20 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../3rd_party_jquery/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous" />
+    <script src="../3rd_party_jquery/jquery-3.2.1.min.js"></script>
+    <script src="../3rd_party_jqueryui/jquery-ui.min.js"></script>
+    
+    <script src="../3rd_party_tether/dist/js/tether.min.js"></script>
+
     <script src="../3rd_party_bootstrap/js/bootstrap.min.js"></script>
 
     <script src="index.js"></script>
-    <script src="../3rd_party_typeahead/typeahead.bundle.min.js" />
     
   </head>
 
   <body>
-    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-toggleable-sm navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right hidden-md-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand" href="#" onclick="Reset(); event.preventDefault();">PRM</a>

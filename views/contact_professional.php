@@ -1,16 +1,7 @@
 <?php
 BeginForm('contact_professional');
 
-//AddTextBox($row, 'company_name', 'Entreprise', '');
-?>
-<div class="form-group row">
-<label for="company_name" class="col-form-label">Entreprise</label>
-<span style="width: 100%">
-<input type="text" class="form-control typeahead" name="company_name" id="company_name" placeholder="" value="<?= $row["company_name"] ?>" autocomplete="off" >
-</div>
-</div>
-<?php	
-
+AddTextBox($row, 'company_name', 'Entreprise', '');
 AddTextBox($row, 'professional_service', 'Service', '');
 AddTextBox($row, 'professional_function', 'Fonction', '');
 AddTextBox($row, 'professional_phone', 'Téléphone', '');
@@ -31,46 +22,30 @@ EndForm('contact_professional', '../controllers/contact_controller.php?type=upda
 ?>
 
 <script>
-var substringMatcher = function(strs) {
-	  return function findMatches(q, cb) {
-	    var matches, substringRegex;
 
-	    // an array that will be populated with substring matches
-	    matches = [];
-
-	    // regex used to determine if a string contains the substring `q`
-	    substrRegex = new RegExp(q, 'i');
-
-	    // iterate through the pool of strings and for any string that
-	    // contains the substring `q`, add it to the `matches` array
-	    $.each(strs, function(i, str) {
-	      if (substrRegex.test(str)) {
-	        matches.push(str);
-	      }
-	    });
-
-	    cb(matches);
-	  };
-	};
-
-	var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-	  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-	  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-	  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-	  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-	  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-	  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-	  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-	  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-	];
-	
-$('#company_name').typeahead({
-  hint: true,
-  highlight: true,
-  minLength: 1
-},
-{
-  name: 'states',
-  source: substringMatcher(states)
+$("#company_name").autocomplete({
+	source: function( request, response ) {
+		$.ajax({
+			url: "search_company.php",
+			dataType: "json",
+			data: {
+				search_string: request.term
+			},
+			success: function( data ) {
+				response( $.map( data.items, function( item ) {
+					return {
+						label: item.fullName,
+						id: item.id
+					}
+				}));
+			}
+		});
+	},
+	minLength: 2
 });
+
+$("#company_name").focus(function () {
+	$("#company_name").select();
+});
+
 </script>

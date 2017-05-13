@@ -5,7 +5,7 @@ if (isset($_GET["type"]))
 {
 	if ($_GET["type"] == "update")
 	{
-		UpdateAttribute($_POST["attribute_id"], $_POST);
+		echo UpdateAttribute($_POST["attribute_id"], $_POST);
 	}
 	else if ($_GET["type"] == "delete")
 	{
@@ -13,8 +13,7 @@ if (isset($_GET["type"]))
 	}
 	else if ($_GET["type"] == "insert")
 	{
-		$newAttributeId = CreateAttribute($_POST);
-		echo $newAttributeId;
+		echo CreateAttribute($_POST);
 	}
 	return;
 }
