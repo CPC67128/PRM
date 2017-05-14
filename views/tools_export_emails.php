@@ -1,7 +1,4 @@
-<?php
-include '../views_old_to_review/center_panels/form_management.php';
-begin_form();
-?>
+<?php BeginForm('tools_export_emails'); ?>
 Include these attributes :<br />
 <input class="attribute" name="attribute_include_1" size="60"><br />
 <input class="attribute" name="attribute_include_2" size="60"><br />
@@ -11,8 +8,7 @@ Exclude these attributes :<br />
 <input class="attribute" name="attribute_exclude_1" size="60"><br />
 <input class="attribute" name="attribute_exclude_2" size="60"><br />
 <input class="attribute" name="attribute_exclude_3" size="60"><br />
-<br />
-<?php end_form('Envoyer', '../prm_controllers/tools_controller.php?type=export_emails'); ?>
+<?php EndForm('tools_export_emails', '../controllers/tools_controller.php?type=export_emails'); ?>
 
 <script type="text/javascript" charset="utf-8">
 $(function() {

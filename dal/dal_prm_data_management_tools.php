@@ -120,7 +120,7 @@ function check_emails_in_database($post)
 			{
 				$in_here = true;
 			}
-			mysql_free_result($resultat);
+			mysqli_free_result($resultat);
 
 			if (!$in_here)
 			{		
@@ -157,7 +157,7 @@ function set_attribute_to_emails($post)
 	}
 	else
 		die('No attribute');
-	mysql_free_result($resultat);
+	mysqli_free_result($resultat);
 	
 	
 	$emails_list = $post["emails"];
@@ -194,7 +194,7 @@ function set_attribute_to_emails($post)
 				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
-			mysql_free_result($resultat);
+			mysqli_free_result($resultat);
 
 			if ($contact_id >= 0)
 			{
@@ -265,7 +265,7 @@ function set_last_contact_date_to_emails($post)
 				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
-			mysql_free_result($resultat);
+			mysqli_free_result($resultat);
 
 			if ($contact_id >= 0)
 			{
@@ -303,7 +303,7 @@ function remove_attribute_to_emails($post)
 	}
 	else
 		die('No attribute');
-	mysql_free_result($resultat);
+	mysqli_free_result($resultat);
 
 
 	$emails_list = $post["emails"];
@@ -340,7 +340,7 @@ function remove_attribute_to_emails($post)
 				$ligne = $resultat->fetch_assoc();
 				$contact_id = $ligne["contact_id"];
 			}
-			mysql_free_result($resultat);
+			mysqli_free_result($resultat);
 
 			if ($contact_id >= 0)
 			{
@@ -392,7 +392,7 @@ function export_emails($post)
 
 				$where .= ($where == '' ? ' where ' : ' and ').' contact_id in (select contact_id from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$attribute_id.') ';
 			}
-			mysql_free_result($resultat);
+			mysqli_free_result($resultat);
 		}
 	}
 
@@ -409,7 +409,7 @@ function export_emails($post)
 
 				$where .= ($where == '' ? ' where ' : ' and ').' contact_id not in (select contact_id from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$attribute_id.') ';
 			}
-			mysql_free_result($resultat);
+			mysqli_free_result($resultat);
 		}
 	}
 
@@ -443,7 +443,7 @@ function export_emails($post)
 		$message .= $ligne["email"].'<br />';
 	}
 
-	mysql_free_result($resultat);
+	mysqli_free_result($resultat);
 
 	include 'database_use_stop.php';
 

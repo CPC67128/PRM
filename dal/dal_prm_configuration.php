@@ -16,23 +16,6 @@ function GetConfigurationRow()
 	return $row;
 }
 
-function UpdateConfiguration($ViewArchived)
-{
-	if (!configuration_IsConfigurationExisting())
-		configuration_CreateConfigurationRow();
-
-	if (IsReadOnly())
-		return;
-
-	include 'database_use_start.php';
-
-	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_configuration set view_archived = %s",
-		$ViewArchived);
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
-
-	include 'database_use_stop.php';
-}
-
 function configuration_IsConfigurationExisting()
 {
 	include 'database_use_start.php';

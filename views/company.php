@@ -1,6 +1,7 @@
 <?php
 $row = GetCompanyRow($id);
 
+AddGroup('company_record', 'Enregistrement');
 AddGroup('company_details', 'Coordonées');
 AddGroup('company_activities', 'Activités');
 AddGroup('company_recruitment', 'Recrutement');

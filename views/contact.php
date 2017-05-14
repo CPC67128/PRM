@@ -1,6 +1,7 @@
 <?php
 $row = GetContactRow($id);
 
+AddGroup('contact_record', 'Enregistrement');
 AddGroup('contact_identity', 'Identité');
 AddGroup('contact_personal', 'Personnel');
 AddGroup('contact_professional', 'Professionnel');
