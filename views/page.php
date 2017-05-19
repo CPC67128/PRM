@@ -1,3 +1,4 @@
+<div class="container">
 <?php
 include_once '../dal/dal_prm.php';
 
@@ -47,7 +48,7 @@ function AddTextBox($row, $fieldName, $label, $placeHolder, $type='text')
 	if (strlen($label) == 0)
 	{
 		?>
-		<div class="form-group row">
+		<div class="form-group">
 			<input type="<?= $text ?>" class="form-control" name="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
 		</div>
 		<?php
@@ -55,7 +56,7 @@ function AddTextBox($row, $fieldName, $label, $placeHolder, $type='text')
 	else
 	{
 		?>
-		<div class="form-group row">
+		<div class="form-group">
 			<label for="<?= $fieldName ?>" class="col-form-label"><?= $label ?></label>
 			<input type="<?= $type ?>" class="form-control" name="<?= $fieldName ?>" id="<?= $fieldName ?>" placeholder="<?= $placeHolder ?>" value="<?= $value ?>" autocomplete="off" >
 		</div>
@@ -68,15 +69,29 @@ function AddTextBox($row, $fieldName, $label, $placeHolder, $type='text')
 <?php
 
 
+function BeginRow()
+{
+	?>
+	<div class="row justify-content-md-center">
+	<?php
+}
 
+function EndRow()
+{
+	?>
+	<div class="row justify-content-md-center">
+	<?php
+}
 
-function AddGroup($divId, $title)
+function AddGroup($divId, $title, $class = "col-lg-6 col-xl-4")
 {
 	global $row;
 	$titleId = $divId.'Title';
 ?>
-<div id="<?= $divId ?>">
+<div id="<?= $divId ?>" class="<?= $class ?>">
+<?php if (strlen($title) > 0) { ?>
 <h1 class="page-header" id="<?= $titleId ?>"><?= $title ?></h1>
+<?php } ?>
 <?php include ''.$divId.'.php'; ?>
 </div>
 <?php
@@ -104,7 +119,7 @@ function BeginForm($idForm)
 function EndForm($idForm, $controller, $functionToCallOnSuccess = "", $submitButtonText="")
 {
 	?>
-<div class="form-group row">
+<div class="form-group">
 	<div class="float-right">
 	<button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
 	<button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
@@ -137,7 +152,7 @@ $("#form<?= $idForm ?>").submit(function () {
       }
     );
 
-	return false;   
+	return false;
 });
 </script>
 
@@ -189,3 +204,5 @@ $("#form<?= $idForm ?>").submit(function () {
 }
 
 ?>
+</div>
+</div>
