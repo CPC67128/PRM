@@ -40,7 +40,7 @@ $("#formContactFiles").submit(function () {
         data: data,
         success: function( dataResult )  
         {
-             alert( dataResult );
+        	LoadContactFilesDetail();
         }
    });
 
