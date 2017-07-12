@@ -41,6 +41,7 @@ $("#formContactFiles").submit(function () {
         success: function( dataResult )  
         {
         	LoadContactFilesDetail();
+        	alert("Fait !");
         }
    });
 

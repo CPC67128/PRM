@@ -100,3 +100,12 @@ h1 {
 .tt-suggestion p {
     margin: 0;
 }
+
+/* ----- PRM v1 ----- */
+
+.imageView {
+  max-width: 400px;
+  max-height: 400px;
+  width: expression(this.width > 400 ? "400px" : true);
+  height: expression(this.height > 400 ? "400px" : true);
+}

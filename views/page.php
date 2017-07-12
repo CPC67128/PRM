@@ -83,7 +83,7 @@ function EndRow()
 	<?php
 }
 
-function AddGroup($divId, $title, $class = "col-lg-6 col-xl-4")
+function AddGroup($divId, $title, $class = "col-xl-12") 
 {
 	global $row;
 	$titleId = $divId.'Title';
