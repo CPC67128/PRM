@@ -97,6 +97,13 @@ function AddGroup($divId, $title, $class = "col-xl-12")
 <?php
 }
 
+function AddGroupLink($divId, $title)
+{
+	?>
+	<a class="groupLink" href="#<?= $divId ?>"><?= $title ?></a>
+	<?php
+}
+
 
 
 

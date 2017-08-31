@@ -131,6 +131,11 @@ $(window).bind('hashchange', function() {
 });
 
 $(document).ready(function(){
+
 	console.log("$(document).ready(function()");
 	Refresh();
 });
+
+
+
+
