@@ -16,7 +16,7 @@ function GetAttributeResource($AttributeId)
 		from '.$DB_TABLE_PREFIX.'prm_attribute
 		where attribute_id = '.$AttributeId.'
 		order by attribute';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 
@@ -29,7 +29,7 @@ function GetAttributeNamesForCompany()
 	include 'database_use_start.php';
 
 	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'prm_attribute where for_company = 1 order by attribute';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 
@@ -41,7 +41,7 @@ function GetAllAttributesForContact()
 	include 'database_use_start.php';
 	
 	$query = 'select distinct attribute from '.$DB_TABLE_PREFIX.'prm_attribute where for_contact = 1 order by attribute';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	
 	include 'database_use_stop.php';
 	
@@ -139,13 +139,13 @@ function DeleteAttribute($AttributeId)
 	include 'database_use_start.php';
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_contact_attribute where attribute_id = '.$AttributeId;
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_company_attribute where attribute_id = '.$AttributeId;
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_attribute where attribute_id = '.$AttributeId;
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 }
@@ -162,7 +162,7 @@ function CreateAttribute($post)
 		(get_magic_quotes_gpc() ? $Attribute : $mysqli->real_escape_string($_POST["attribute"])),
 		(isset($post["for_company"]) && $post["for_company"] == 'on' ? '1' : '0'),
 		(isset($post["for_contact"]) && $post["for_contact"] == 'on' ? '1' : '0'));
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	$newId = $mysqli->insert_id;
 
@@ -179,7 +179,7 @@ function GetAttributeShortDescription($AttributeId)
 	$query = 'select attribute
 		from '.$DB_TABLE_PREFIX.'prm_attribute
 		where attribute_id = '.$AttributeId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';

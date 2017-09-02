@@ -8,7 +8,7 @@ function GetConfigurationRow()
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_configuration';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
@@ -23,7 +23,7 @@ function configuration_IsConfigurationExisting()
 	$is_existing = false;
 
 	$query = 'select configuration_id from '.$DB_TABLE_PREFIX.'prm_configuration';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	if (isset($row["configuration_id"]))
@@ -41,7 +41,7 @@ function configuration_CreateConfigurationRow()
 	$is_existing = false;
 
 	$query = 'insert into '.$DB_TABLE_PREFIX.'prm_configuration (view_archived) values (0)';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 

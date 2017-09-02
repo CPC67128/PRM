@@ -8,7 +8,7 @@ function GetCompaniesNextActionsHighlight()
 		from ".$DB_TABLE_PREFIX."prm_company
 		where ifnull(next_action, '') != ''
 		order by ifnull(last_update, '1900-01-01') asc";
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 
@@ -24,13 +24,13 @@ function DeleteCompany($CompanyId)
 	include 'database_use_start.php';
 
 	$query = 'update '.$DB_TABLE_PREFIX.'prm_contact set company_id = null where company_id = '.$CompanyId;
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());  
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);  
 	
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_company_attribute where company_id = '.$CompanyId;
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());  
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);  
 	
 	$query = 'delete from '.$DB_TABLE_PREFIX.'prm_company where company_id = '.$CompanyId;
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());  
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);  
 
 	include 'database_use_stop.php';
 }
@@ -43,12 +43,12 @@ function ArchiveCompany($CompanyId)
 	include 'database_use_start.php';
 
 	$query = 'update '.$DB_TABLE_PREFIX.'prm_company set archived = 1 where company_id = '.$CompanyId;
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());  
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);  
 	
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (contact_id, comment, creation_date) values (%s, '%s', now())",
 		$_POST["company_id"],
 		'Archivage');
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	_UpdateCompanyLastUpdateDate($CompanyId);
 
@@ -68,7 +68,7 @@ function GetCompanyResource($CompanyId)
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_company where company_id = '.$CompanyId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 
@@ -80,7 +80,7 @@ function GetAllCompanyNames()
 	include 'database_use_start.php';
 	
 	$query = 'select distinct name from '.$DB_TABLE_PREFIX.'prm_company order by name';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	
 	include 'database_use_stop.php';
 	
@@ -101,7 +101,7 @@ function GetCompanyAttributes($CompanyId)
 		inner join '.$DB_TABLE_PREFIX.'prm_attribute A on A.attribute_id = CA.attribute_id
 		where CA.company_id = '.$CompanyId.'
 		order by attribute';
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 
@@ -118,7 +118,7 @@ function SetAttributeToCompany($CompanyId, $Attribute, $CreationDate)
 
 	$query = sprintf("select attribute_id from ".$DB_TABLE_PREFIX."prm_attribute where attribute='%s'",
 		(get_magic_quotes_gpc() ? $Attribute : $mysqli->real_escape_string($Attribute)));
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	if (!isset($row["attribute_id"]))
@@ -127,13 +127,13 @@ function SetAttributeToCompany($CompanyId, $Attribute, $CreationDate)
 	$query = sprintf("delete from ".$DB_TABLE_PREFIX."prm_company_attribute where company_id = %s and attribute_id = %s",
 		$CompanyId,
 		$row["attribute_id"]);
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_company_attribute (company_id, attribute_id, creation_date) values (%s, %s, '%s')",
 		$CompanyId,
 		$row["attribute_id"],
 		$mysqli->real_escape_string($CreationDate));
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	_UpdateCompanyLastUpdateDate($CompanyId);
 
@@ -149,7 +149,7 @@ function _UpdateCompanyLastUpdateDate($CompanyId)
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_company set last_update = curdate() where company_id = %s",
 		$CompanyId);
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 }
 
 function UpdateCompanyLastUpdateDate($CompanyId)
@@ -166,14 +166,14 @@ function CreateCompany($CompanyName)
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_company (name, last_update) values ('%s', now())",
 		FormatStringForSqlQuery($CompanyName));
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	$newId = $mysqli->insert_id;
 
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (company_id, comment, creation_date) values (%s, '%s', now())",
 		$newId,
 		'Création');
-	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 
@@ -185,7 +185,7 @@ function GetNotesFromCompany($CompanyId)
 	include 'database_use_start.php';
 
 	$query = 'select * from '.$DB_TABLE_PREFIX.'prm_note where company_id = '.$CompanyId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	include 'database_use_stop.php';
 
@@ -202,7 +202,7 @@ function AddNoteToCompany($CompanyId, $Note)
 	$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (company_id, comment, creation_date) values (%s, '%s', now())",
 		$CompanyId,
 		(get_magic_quotes_gpc() ? $Note : $mysqli->real_escape_string($Note)));
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	_UpdateCompanyLastUpdateDate($CompanyId);
 
@@ -218,7 +218,7 @@ function RemoveNoteFromCompany($CompanyId, $NoteId)
 
 	$query = sprintf("delete from ".$DB_TABLE_PREFIX."prm_note where note_id = %s",
 		$NoteId);
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	_UpdateCompanyLastUpdateDate($CompanyId);
 
@@ -234,7 +234,7 @@ function RemoveAttributeFromCompany($CompanyId, $CompanyAttributeId)
 
 	$query = sprintf("delete from ".$DB_TABLE_PREFIX."prm_company_attribute where company_attribute_id = %s",
 		$CompanyAttributeId);
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	
 	_UpdateCompanyLastUpdateDate($CompanyId);
 
@@ -249,7 +249,7 @@ function UpdateCompany($CompanyId, $post)
 	include 'database_use_start.php';
 
 	$query = "select * from ".$DB_TABLE_PREFIX."prm_company where company_id = ".$CompanyId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 	$row = $result->fetch_assoc();
 
@@ -287,14 +287,14 @@ function UpdateCompany($CompanyId, $post)
 	if ($something_has_changed)
 	{
 		$query = 'update '.$DB_TABLE_PREFIX.'prm_company set '.$update_query.' where company_id = '.$CompanyId;
-		$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+		$mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 
 		if (strlen(chop($note_comment)) > 0)
 		{
 			$query = sprintf("insert into ".$DB_TABLE_PREFIX."prm_note (company_id, comment, creation_date) values (%s, '%s', now())",
 				$CompanyId,
 				(get_magic_quotes_gpc() ? $Note : $mysqli->real_escape_string($note_comment)));
-			$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+			$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 		}
 
 		_UpdateCompanyLastUpdateDate($CompanyId);
@@ -310,7 +310,7 @@ function GetCompanyShortDescription($CompanyId)
 	$query = 'select name
 		from '.$DB_TABLE_PREFIX.'prm_company
 		where company_id = '.$CompanyId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
@@ -330,7 +330,7 @@ function GetCompanyGoogleItSearchString($CompanyId)
 	$query = 'select name
 		from '.$DB_TABLE_PREFIX.'prm_company
 		where company_id = '.$CompanyId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
@@ -355,7 +355,7 @@ function GetCompanyGoogleMapsItSearchString($CompanyId)
 	$query = 'select name, postal_name, address_1, address_2, address_3, address_4, zip, city, country
 		from '.$DB_TABLE_PREFIX.'prm_company
 		where company_id = '.$CompanyId;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
@@ -400,7 +400,7 @@ function company_GetCompanyPictureFileId($Company_id)
 			from '.$DB_TABLE_PREFIX.'prm_company COM
 			inner join '.$DB_TABLE_PREFIX.'prm_file FIL on COM.picture_file_id = FIL.file_id
 			where COM.company_id = '.$Company_id;
-	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.mysql_error());
+	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
 	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
