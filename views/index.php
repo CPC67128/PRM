@@ -39,7 +39,7 @@
       <button class="navbar-toggler navbar-toggler-right hidden-md-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#" onclick="Reset(); event.preventDefault();">PRM</a>
+      <a class="navbar-brand" href="#" onclick="Reset(); $('html, body').scrollTop(0); event.preventDefault();">PRM</a>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">

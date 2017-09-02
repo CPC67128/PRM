@@ -1,11 +1,5 @@
 <?php
 
-/*
-session_start();
-$USER_ID = $_SESSION['user_id'] = 'e9ee6ea8-393e-11e2-ad8e-00ff9f7445d4';
-define('USER_ID', $USER_ID);
-*/
-
 include_once 'dal_common.php';
 
 function FormatStringForSqlQuery($string)

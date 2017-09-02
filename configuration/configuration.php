@@ -4,8 +4,6 @@ $DB_NAME = "prm";
 $DB_USER = "root";
 $DB_PASSWORD = "";
 
-$DB_TABLE_PREFIX = ""; // Can be for example demo_ ...
-
-$THIRD_PARTY_FOLDER = '../3rd_party/';
+$DB_TABLE_PREFIX = "";
 
 $READ_ONLY = false;

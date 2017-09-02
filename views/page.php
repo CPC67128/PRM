@@ -14,26 +14,33 @@ $page = '';
 if (isset($_POST['page']))
 	$page = $_POST['page'];
 
-if ($id == -1)
+switch ($type)
 {
-	switch ($type)
-	{
-		case 'contact': include_once 'contact_creation.php'; break;
-		case 'company': include_once 'company_creation.php'; break;
-		case 'attribute': include_once 'attribute_creation.php'; break;
-		case 'tools': include_once 'tools.php'; break;
-		default: include_once 'home.php'; break;
-	}
+	case 'contact': include_once 'page_contact'.($id == -1 ? '_creation' : '').'.php'; AddStandardContent(); break;
+	case 'company': include_once 'page_company'.($id == -1 ? '_creation' : '').'.php'; AddStandardContent(); break;
+	case 'attribute': include_once 'page_attribute'.($id == -1 ? '_creation' : '').'.php'; AddStandardContent(); break;
+	case 'tools': include_once 'page_tools.php'; AddStandardContent(); break;
+	default: include_once 'home.php'; break;
 }
-else
+
+function AddStandardContent()
 {
-	switch ($type)
-	{
-		case 'contact': include_once 'contact.php'; break;
-		case 'company': include_once 'company.php'; break;
-		case 'attribute': include_once 'attribute.php'; break;
-		case 'tools': include_once 'tools.php'; break;
-		default: include_once 'home.php'; break;
+	global $row, $views;
+
+	if (!isset($views))
+		return;
+
+	?>
+	<nav class="breadcrumb">
+	<?php
+	foreach ($views as $divId => $divTitle) {
+		AddGroupLink($divId, $divTitle);
+	}
+	?>
+	</nav>
+	<?php
+	foreach ($views as $divId => $divTitle) {
+		AddGroup($divId, $divTitle);
 	}
 }
 
@@ -88,6 +95,23 @@ function AddGroup($divId, $title, $class = "col-xl-12")
 	global $row;
 	$titleId = $divId.'Title';
 ?>
+<div class="row">
+	<div class="col-sm-12">
+		<div id="<?= $divId ?>" class="card">
+		  	<div class="card-header">
+		   		<?= $title ?>
+		  	</div>
+			<div class="card-block">
+				<?php include $divId.'.php'; ?>
+			</div>
+		</div>
+	</div>
+</div>
+<?php
+/*
+ * 	global $row;
+	$titleId = $divId.'Title';
+?>
 <div id="<?= $divId ?>" class="<?= $class ?>">
 <?php if (strlen($title) > 0) { ?>
 <h1 class="page-header" id="<?= $titleId ?>"><?= $title ?></h1>
@@ -95,12 +119,15 @@ function AddGroup($divId, $title, $class = "col-xl-12")
 <?php include ''.$divId.'.php'; ?>
 </div>
 <?php
+
+ */
 }
 
 function AddGroupLink($divId, $title)
 {
+	/* <a class="groupLink" href="#<?= $divId ?>"><?= $title ?></a> */
 	?>
-	<a class="groupLink" href="#<?= $divId ?>"><?= $title ?></a>
+	<a class="breadcrumb-item" href="#<?= $divId ?>"><?= $title ?></a>
 	<?php
 }
 
@@ -128,6 +155,7 @@ function EndForm($idForm, $controller, $functionToCallOnSuccess = "", $submitBut
 	?>
 <div class="form-group">
 	<div class="float-right">
+	<a href="#" class="top">Haut de page</a>
 	<button type="submit" class="btn btn-primary" id="submit<?= $idForm ?>">Enregistrer</button>
 	<button type="reset" class="btn btn-default" id="reset<?= $idForm ?>" >Annuler</button>
 	<label id="form<?= $idForm ?>Result"></label>
@@ -213,3 +241,22 @@ $("#form<?= $idForm ?>").submit(function () {
 ?>
 </div>
 </div>
+
+
+
+
+<script>
+$("a.breadcrumb-item").click(function(e){
+	e.preventDefault();
+	//alert($(this).attr("href"));
+    $('html, body').animate({
+        'scrollTop':   $($(this).attr("href")).offset().top-70
+      }, 0);
+	//return false;
+});
+
+$("a.top").click(function(e){
+	e.preventDefault();
+    $('html, body').scrollTop(0);
+});
+</script>

@@ -109,3 +109,8 @@ h1 {
   width: expression(this.width > 400 ? "400px" : true);
   height: expression(this.height > 400 ? "400px" : true);
 }
+
+
+.centerLink {
+	cursor: pointer;
+}

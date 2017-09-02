@@ -38,11 +38,15 @@ for ($i = 0; $i < $n; $i++)
 ?>
 </ul>
 
-<h3>Des actions à faire sur des contacts ?</h3>
-<ul>
 <?php
 $resultat = GetContactsNextActionsHighlight();
 $n = $resultat->num_rows;
+if ($n > 0)
+{
+?>
+<h3>Des actions à faire sur des contacts ?</h3>
+<ul>
+<?php
 for ($i = 0; $i < $n; $i++)
 {
   $row = $resultat->fetch_assoc();
@@ -56,7 +60,16 @@ for ($i = 0; $i < $n; $i++)
 }
 ?>
 </ul>
+<?php
+}
+?>
 
+<?php
+$resultat = GetContactsNextActionsHighlight();
+$n = $resultat->num_rows;
+if ($n > 0)
+{
+?>
 <h3>Des actions à faire sur des entreprises ?</h3>
 <ul>
 <?php
@@ -75,7 +88,12 @@ for ($i = 0; $i < $n; $i++)
 }
 ?>
 </ul>
-
+<?php
+}
+?>
+<br />
 <div class="row">
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a><br /><span id="licence"><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">PRM / Private Relationship Manager</span> de <a xmlns:cc="http://creativecommons.org/ns#" href="http://stevefuchs.fr" property="cc:attributionName" rel="cc:attributionURL">Steve Fuchs</a> est mis à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr">licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Pas de Modification 3.0 non transposé</a>.</span>
+<small>
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />PRM / Private Relationship Manager de <a href="http://stevefuchs.fr">Steve Fuchs</a> est mis à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licence Creative Commons Attribution 4.0 International</a>.
+</small>
 </div>
