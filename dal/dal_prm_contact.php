@@ -28,11 +28,11 @@ function GetBirthdaysHighlight()
 	$query = "select *
 		from
 		(
-		SELECT STR_TO_DATE(CONCAT(DATE_FORMAT(date_add(now(), interval -1 year),'%Y'), '-', DATE_FORMAT(personal_birthday, '%m-%d')), '%Y-%m-%d') as birthday, contact_id, first_name, last_name, archived FROM ".$DB_TABLE_PREFIX."prm_contact WHERE personal_birthday is not null
+		SELECT STR_TO_DATE(CONCAT(DATE_FORMAT(date_add(now(), interval -1 year),'%Y'), '-', DATE_FORMAT(personal_birthday, '%m-%d')), '%Y-%m-%d') as birthday, contact_id, first_name, last_name, picture_file_id, archived FROM ".$DB_TABLE_PREFIX."prm_contact WHERE personal_birthday is not null
 		union
-		SELECT STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y'), '-', DATE_FORMAT(personal_birthday, '%m-%d')), '%Y-%m-%d') as birthday, contact_id, first_name, last_name, archived FROM ".$DB_TABLE_PREFIX."prm_contact WHERE personal_birthday is not null
+		SELECT STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y'), '-', DATE_FORMAT(personal_birthday, '%m-%d')), '%Y-%m-%d') as birthday, contact_id, first_name, last_name, picture_file_id, archived FROM ".$DB_TABLE_PREFIX."prm_contact WHERE personal_birthday is not null
 		union
-		SELECT STR_TO_DATE(CONCAT(DATE_FORMAT(date_add(now(), interval +1 year),'%Y'), '-', DATE_FORMAT(personal_birthday, '%m-%d')), '%Y-%m-%d') as birthday, contact_id, first_name, last_name, archived FROM ".$DB_TABLE_PREFIX."prm_contact WHERE personal_birthday is not null
+		SELECT STR_TO_DATE(CONCAT(DATE_FORMAT(date_add(now(), interval +1 year),'%Y'), '-', DATE_FORMAT(personal_birthday, '%m-%d')), '%Y-%m-%d') as birthday, contact_id, first_name, last_name, picture_file_id, archived FROM ".$DB_TABLE_PREFIX."prm_contact WHERE personal_birthday is not null
 		) as birthday_table
 		where birthday between date_add(now(), INTERVAL -2 WEEK) and date_add(now(), INTERVAL +2 MONTH)
 		and ifnull(archived, 0) != 1
@@ -48,7 +48,7 @@ function GetContactsToUpdateHighlight()
 {
 	include 'database_use_start.php';
 
-	$query = "select contact_id, first_name, last_name FROM ".$DB_TABLE_PREFIX."prm_contact 
+	$query = "select contact_id, first_name, last_name, picture_file_id FROM ".$DB_TABLE_PREFIX."prm_contact 
 		where ifnull(archived, 0) != 1
 		order by ifnull(last_view, '1900-01-01') asc limit 3";
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
@@ -679,7 +679,7 @@ function RemoveRelationFromContactToContact($RelationId)
 function GetContactShortDescription($ContactId)
 {
 	include 'database_use_start.php';
-	
+
 	$query = 'select first_name, last_name
 			from '.$DB_TABLE_PREFIX.'prm_contact
 			where contact_id = '.$ContactId;
@@ -707,12 +707,12 @@ function contact_GetContactPictureFileId($Contact_id)
 {
 	include 'database_use_start.php';
 
-	$query = 'select FIL.file_id
+	$query = 'select FIL.file_id as file_id
 			from '.$DB_TABLE_PREFIX.'prm_contact CNT
 			inner join '.$DB_TABLE_PREFIX.'prm_file FIL on CNT.picture_file_id = FIL.file_id
 			where CNT.contact_id = '.$Contact_id;
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
-	$row = mysqli_fetch_assoc($result);
+	$row = $result->fetch_assoc();
 
 	include 'database_use_stop.php';
 

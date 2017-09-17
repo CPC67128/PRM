@@ -1,6 +1,6 @@
 <?php BeginForm('contact_identity'); ?>
 
-<div class="form-group row">
+<div class="form-group">
 	<div class="form-check form-check-inline">
 	  <label class="form-check-label">
 	    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="M" <?php echo (strcasecmp($row["gender"], 'M') == 0 ? 'checked' : ''); ?>>Homme

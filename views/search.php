@@ -10,64 +10,49 @@ $companies = SearchCompanies($searchString);
 $attributes = SearchAttributes($searchString);
 ?>
 <div class="row">
-<ul class="list-group">
+<div class="list-group">
 <?php
 for ($i=0 ; $i < count($contacts) && $i < 10 ; $i++ )
 {
-	$picture_file_id = contact_GetContactPictureFileId($contacts[$i]['id']);
 	$row = GetContactRow($contacts[$i]['id']);
+	$picture_file_id = contact_GetContactPictureFileId($contacts[$i]['id']);
 
 	if ($picture_file_id >= 0)
 		$pictureUrl = "download.php?file_id=".$picture_file_id;
 	else
-		$pictureUrl = "avatar-blank.jpg";
-	$pictureUrl = "../images/avatar-blank.jpg";
+		$pictureUrl = "../images/avatar-blank.jpg";
 	?>
-	<li class="list-group-item">
-	    <div class="col-xs-8">
-	        <span class="name"><?= $row['first_name'] ?> <?= $row['last_name'] ?></span>
-	        <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_CONTACT, <?= $contacts[$i]['id'] ?>);">Modifier</button>
-		</div>
-	    <div class="clearfix"></div>
-	</li>
+	<a href="#" class="list-group-item list-group-item-action" onclick="DisplayRecord(TYPE_CONTACT, <?= $contacts[$i]['id'] ?>); return false;">
+	<img src="<?= $pictureUrl ?>" style="max-height: 30px;"> 
+	<?= $row['first_name'] ?> <?= $row['last_name'] ?></a>
 	<?php
 }
 ?>
-</ul>
+</div>
 
-<ul class="list-group">
+<div class="list-group">
 <?php
 for ($i=0 ; $i < count($companies) && $i < 10 ; $i++ )
 {
 	$row = GetCompanyRow($companies[$i]['id']);
 	?>
-	<li class="list-group-item">
-	    <div class="col-xs-8">
-	        <span class="name"><?= $row['name'] ?></span>
-	        <button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_COMPANY, <?= $companies[$i]['id'] ?>);">Modifier</button>
-		</div>
-	    <div class="clearfix"></div>
-	</li>
+	<a href="#" class="list-group-item list-group-item-action" onclick="DisplayRecord(TYPE_COMPANY, <?= $companies[$i]['id'] ?>); return false;"><?= $row['name'] ?></a>
 	<?php
 }
 ?>
-</ul>
+</div>
 
-<ul class="list-group">
+<div class="list-group">
 <?php
 for ($i=0 ; $i < count($attributes) ; $i++ )
 {
 	$row = GetAttributeRow($attributes[$i]['id']);
 	?>
-	<li class="list-group-item">
-	    <div class="col-xs-8">
-	 		<span class="name"><?= $row['attribute'] ?></span>
-			<button type="button" class="btn btn-primary" onclick="DisplayRecord(TYPE_ATTRIBUTE, <?= $attributes[$i]['id'] ?>);">Modifier</button>
-		</div>
-	    <div class="clearfix"></div>
-	</li>
+	<a href="#" class="list-group-item list-group-item-action" onclick="DisplayRecord(TYPE_ATTRIBUTE, <?= $attributes[$i]['id'] ?>); return false;"><?= $row['attribute'] ?></a>
 	<?php
 }
 ?>
 </ul>
+</div>
+
 </div>
