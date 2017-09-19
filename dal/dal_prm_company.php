@@ -145,11 +145,13 @@ function _UpdateCompanyLastUpdateDate($CompanyId)
 	if (IsReadOnly())
 		return;
 
-	include '../configuration/configuration.php';
+	include 'database_use_start.php';
 
 	$query = sprintf("update ".$DB_TABLE_PREFIX."prm_company set last_update = curdate() where company_id = %s",
 		$CompanyId);
 	$result = $mysqli->query($query) or die('Erreur SQL ! '.$query.'<br />'.$mysqli->error);
+
+	include 'database_use_stop.php';
 }
 
 function UpdateCompanyLastUpdateDate($CompanyId)
