@@ -4,8 +4,7 @@
 
 PRM (Private Relationship Manager) est une application web de gestion de contacts.
 
-Ce projet a débuté en 1999, sous la forme d'une base de contacts Microsoft Access. De simple annuaire téléphonique, je l&rsquo;ai faite évoluer peu à peu en rajoutant au fur et à mesure des fonctionnalités et en changeant de technologies.
-
+Ce projet a débuté en 1999, sous la forme d'une base de contacts Microsoft Access. De simple annuaire téléphonique, je l'ai fait évoluer peu à peu en rajoutant au fur et à mesure des fonctionnalités et en changeant de technologies.
 Une démonstration de l&rsquo;application en cours de réécriture avec Bootstrap 4 est visible [ici](http://stevefuchs.fr/PRM/).
 
 Les sources sont disponibles sur <a href="https://github.com/CPC67128/PRM" target="_blank" rel="noopener noreferrer">GitHub</a>.
